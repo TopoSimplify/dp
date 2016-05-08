@@ -1,0 +1,3 @@
+#DP
+
+douglas-peucker algorithm
