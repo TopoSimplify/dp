@@ -21,19 +21,21 @@ type DP struct {
 
 //DP constructor
 func NewDP(options Options, build bool) {
-    self := &DP{BST: bst.NewBST()}
-  //opts
-  self.pln = options.Polyline
-  self.gen = make([]int , 0)
-  self.res = options.Threshold
-  self.simple = &Simplex{
-      At: make([]int, 0, len(self.pln)),
-      Rm: make([]int, 0),
-  }
+      self := &DP{BST: bst.NewBST()}
 
-  if build  {
-      self.build(nil)
-  }
+      //opts
+      self.pln = options.Polyline
+      self.gen = make([]int , 0)
+      self.res = options.Threshold
+
+      self.simple = &Simplex{
+          At: make([]int, 0, len(self.pln)),
+          Rm: make([]int, 0),
+      }
+
+      if build  {
+          self.build(nil)
+      }
 }
 
 /*
@@ -52,8 +54,7 @@ func (self *DP) simplify(node, res float64, filter) {
 
   res = is_nil(res) ? self.res : res
 
-  var dpf = is_function(filter) ?
-            filter(self) : Filter(self)
+  var dpf = is_function(filter) ? filter(self) : Filter(self)
 
   dpf.filter(node, res)
 
@@ -71,7 +72,7 @@ func (self *DP) simplify(node, res float64, filter) {
   //at
   self.simple.at = dpf.intset.values()
   //rm
-  if self.simple.len(at) {
+  if len(self.simple.at) {
     self.simple.rm = difference(self.gen, self.simple.at)
   }
   else {

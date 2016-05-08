@@ -28,9 +28,8 @@ func (self *VObj) Compare(o Item) int {
 
 func (self VObj) String() string {
     return "{" +
-        strconv.Itoa(self.index) +
-        ", " +
-        strconv.FormatFloat(self.value, 'f', -1, 64) +
+            strconv.Itoa(self.index) + ", " +
+            strconv.FormatFloat(self.value, 'f', -1, 64) +
         "}"
 }
 

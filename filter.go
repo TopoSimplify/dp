@@ -34,8 +34,7 @@ func(self *DP) filter(node *DPNode, res float64) {
     val = int.val(node.int)
     if !(val == nil) && val <= res {
       self.nodeset.append(node)
-    }
-    else {
+    } else {
       stack.append(node.right)
       stack.append(node.left)
     }
