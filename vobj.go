@@ -11,6 +11,14 @@ type VObj struct {
     value float64
 }
 
+func (self *VObj) Index() int{
+    return int(self.index)
+}
+
+func (self *VObj) Value() float64{
+    return self.value
+}
+
 func NewVObj(i int , v float64) *VObj{
     return &VObj{index : Int(i) , value : v }
 }
@@ -28,7 +36,7 @@ func (self *VObj) Compare(o Item) int {
 
 func (self VObj) String() string {
     return "{" +
-        strconv.Itoa(self.index) +
+        strconv.Itoa(int(self.index)) +
         ", " +
         strconv.FormatFloat(self.value, 'f', -1, 64) +
         "}"
