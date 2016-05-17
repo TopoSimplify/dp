@@ -6,26 +6,26 @@ import (
     "strconv"
 )
 
-type VObj struct {
+type Vertex struct {
     index Int
     value float64
 }
 
-func (self *VObj) Index() int{
+func (self *Vertex) Index() int{
     return int(self.index)
 }
 
-func (self *VObj) Value() float64{
+func (self *Vertex) Value() float64{
     return self.value
 }
 
-func NewVObj(i int , v float64) *VObj{
-    return &VObj{index : Int(i) , value : v }
+func NewVObj(i int , v float64) *Vertex {
+    return &Vertex{index : Int(i) , value : v }
 }
 
-func (self *VObj) Compare(o Item) int {
-    v := o.(*VObj)
-    dx := self.value - v.value
+func (self *Vertex) Compare(o Item) int {
+    var v  = o.(*Vertex)
+    var dx = self.value - v.value
     if FloatEqual(dx, 0.0) {
         return 0
     } else if dx < 0 {
@@ -34,7 +34,8 @@ func (self *VObj) Compare(o Item) int {
     return 1
 }
 
-func (self VObj) String() string {
+//vertex to string
+func (self Vertex) String() string {
     return "{" +
         strconv.Itoa(int(self.index)) +
         ", " +

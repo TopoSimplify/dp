@@ -17,13 +17,13 @@ func main() {
     //var g = geom.readwkt(gstr)
     var opts = dp.Options{Polyline: data, Threshold: 0}
     var tree = dp.NewDP(opts, true)
-    var tree_str = tree.BST.Print(keygen)
+    var tree_str = tree.Print()
     fmt.Println(tree_str)
-    //
-    //var o = geom.LineString(tree.pln)
-    //console.log(o.toString())
-    //console.log('gen :', tree.gen)
-    //tree.simplify(0.6)
+
+    var o = NewLineString(tree.Coordinates())
+    fmt.Println(o.String())
+    fmt.Println("gen :", tree.GenInts())
+    tree.Simplify(0.6)
     //var s = _.at(tree.pln, tree.simple.at)
     //o = geom.LineString(s)
     //
@@ -35,17 +35,14 @@ func main() {
     //
     //console.log(tree.print(tree.root, _keygen))
     //console.log("\nerror threshold - 0 units\n")
-    //
-
-
 }
 
 func keygen(itm item.Item) string {
     node := itm.(*bst.Node)
-    dpnode := node.Key.(*dp.DPNode)
+    dpnode := node.Key.(*dp.Node)
     ints := dpnode.Ints
-    inval := ints.Last().(*dp.VObj)
-    key := dpnode.Key.(*item.Int2D)
+    inval := ints.Last().(*dp.Vertex)
+    key := dpnode.Key
 
     var _val = Round(inval.Value(), 1)
     var _int = inval.Index()

@@ -3,13 +3,12 @@ package dp
 import (
     "simplex/vect"
     . "simplex/struct/slist"
-    . "simplex/struct/item"
 )
 
-// computes euclidean offset distance from dp - archor line
+//computes euclidean offset distance from dp - archor line
 //@param indx{Array} - [i, j] indices
-func (self *DP) Offsets(item *DPNode) *SList {
-    var indx = item.Key.(*Int2D)
+func (self *DP) Offsets(node *Node) *SList {
+    var indx = node.Key
     var dist float64
     var N = (indx[1] - indx[0]) - 1
     var intlist = NewSList(N)
