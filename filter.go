@@ -1,45 +1,43 @@
 package dp
 
-//import (
-//  "simplex/util"
-//  "simplex/struct/stack"
-//  "simplex/struct/sset"
-//)
+import (
+    "simplex/struct/stack"
+    "simplex/struct/bst"
+    "math"
+)
 
 
+//node filter at a given res
+//param node
+//param res
+func (self *DP) Filter(n *bst.Node, res float64) {
 
- //node filter at a given res
- //param node
- //param res
+    self.nodeset.Empty()
+    var stack  = stack.NewStack()
+    var node   = n.Key.(*Node)
+    var val    = node.Ints.Last().(*Vertex).value
 
-//func(self *DP) filter(node *DPNode, res float64) {
-//
-//  var intset  = sset.NewSSet()
-//  var nodeset = sset.NewSSet()
-//  var stack   = stack.NewStack()
-//  var vobj    =  node.ints.Last().(*DPNode)
-//  var val     = int.val(node.int)
-//
-//  //early exit
-//  if val < res {
-//    return self.nodeset
-//  }
-//
-//  stack.append(node)
-//
-//  while !stack.isempty() {
-//    node = stack.pop()
-//    if _.is_nil(node) {
-//      continue
-//    }
-//    val = int.val(node.int)
-//    if !(val == nil) && val <= res {
-//      self.nodeset.append(node)
-//    }
-//    else {
-//      stack.append(node.right)
-//      stack.append(node.left)
-//    }
-//  }
-//}
+    //early exit
+    if val < res {
+        return
+    }
 
+    stack.Add(n)
+
+    for !stack.IsEmpty() {
+        n = stack.Pop().(*bst.Node)
+        node   = n.Key.(*Node)
+        if node == nil {
+            continue
+        }
+
+        val = node.Ints.Last().(*Vertex).value
+
+        if !math.IsNaN(val) && val <= res {
+            self.nodeset.Add(node)
+        } else {
+            stack.Add(n.Right)
+            stack.Add(n.Left)
+        }
+    }
+}

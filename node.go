@@ -6,30 +6,26 @@ import (
     "simplex/struct/slist"
 )
 
-type DPNode  struct {
-    Range *Int2D
-    Hull  *geom.Polygon
-    Ints  *slist.SList
+type Node  struct {
+    Key  *Int2D
+    Hull *geom.Polygon
+    Ints *slist.SList
 }
 
-func NewDPNode(rnge *Int2D) *DPNode {
-    return &DPNode{
-        Range   : rnge,
-        Hull    : nil,
-        Ints    : nil,
+func NewNode(key *Int2D) *Node {
+    return &Node{
+        Key  : key,
+        Hull : nil,
+        Ints : nil,
     }
 }
 
-func AsDPNode(item Item) *DPNode {
-    return item.(*DPNode)
+func (self *Node ) Compare(other  Item) int {
+    dpother := other.(*Node)
+    return self.Key.Compare(dpother.Key)
 }
 
-func (self *DPNode ) Compare(other  Item) int {
-    dpother := other.(*DPNode)
-    return self.Range.Compare(dpother.Range)
-}
-
-func (self *DPNode) String() string {
-    return self.Range.String()
+func (self *Node) String() string {
+    return self.Key.String()
 }
 
