@@ -1,19 +1,35 @@
 package dp
 
 import (
-    . "simplex/struct/bst"
     . "simplex/struct/item"
-    . "simplex/geom"
+    "simplex/geom"
     "simplex/struct/slist"
 )
 
 type DPNode  struct {
-    *Node
-    hull *Polygon
-    ints slist.SList
+    Range *Int2D
+    Hull  *geom.Polygon
+    Ints  *slist.SList
 }
 
-//Douglas-Peucker Node
-func NewDPNode(val Item) *DPNode {
-    return &DPNode{NewNode(val), nil}
+func NewDPNode(rnge *Int2D) *DPNode {
+    return &DPNode{
+        Range   : rnge,
+        Hull    : nil,
+        Ints    : nil,
+    }
 }
+
+func AsDPNode(item Item) *DPNode {
+    return item.(*DPNode)
+}
+
+func (self *DPNode ) Compare(other  Item) int {
+    dpother := other.(*DPNode)
+    return self.Range.Compare(dpother.Range)
+}
+
+func (self *DPNode) String() string {
+    return self.Range.String()
+}
+
