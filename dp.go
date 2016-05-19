@@ -12,24 +12,22 @@ import (
 //Type DP
 type DP struct {
     *bst.BST
-    pln         []*Point
-    gen         []int
-    res         float64
-    simple      *Simplex
-    nodeset     *sset.SSet
+    pln     []*Point
+    res     float64
+    Simple  *Simplex
+    nodeset *sset.SSet
 }
 
 //DP constructor
 func NewDP(options Options, build bool) *DP {
     self := &DP{BST: bst.NewBST()}
+
     //opts
-    self.pln = options.Polyline
-    self.gen = make([]int, 0)
-    self.res = options.Threshold
-    self.simple = &Simplex{
-        At: make([]int, 0, len(self.pln)),
-        Rm: make([]int, 0),
-    }
+    self.pln     = options.Polyline
+    self.res     = options.Threshold
+    self.nodeset = sset.NewSSet()
+    self.Simple  = NewSimplex(len(self.pln))
+
     fn := options.Process
     if build {
         self.Build(fn)
@@ -39,10 +37,6 @@ func NewDP(options Options, build bool) *DP {
 //Polyline
 func (self *DP) Coordinates() []*Point {
     return self.pln;
-}
-
-func (self *DP) GenInts( ) []int{
-    return self.gen
 }
 
 /*
@@ -120,9 +114,15 @@ func (self *DP)  build(process func(*bst.Node)) *DP {
         }
     }
 
-    //gen
-    intset.Each(func(itm Item) {
-        self.gen = append(self.gen, int(itm.(Int)))
-    })
     return self
+}
+
+//Get all i
+func (self *DP) At() []*Point {
+    return setvals_coords(self.pln, self.Simple.at)
+}
+
+//Get all removed points
+func (self *DP) Rm() []*Point {
+    return setvals_coords(self.pln, self.Simple.rm)
 }

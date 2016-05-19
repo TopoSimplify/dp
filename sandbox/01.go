@@ -22,12 +22,8 @@ func main() {
 
     var o = NewLineString(tree.Coordinates())
     fmt.Println(o.String())
-    fmt.Println("gen :", tree.GenInts())
-    //tree.Simplify(0.6)
-    //var s = _.at(tree.pln, tree.simple.at)
-    //o = geom.LineString(s)
-    //
-    //console.log(o.toString())
+    o = NewLineString(tree.Simplify(0.6).At())
+    fmt.Println (o.String())
     //console.log(s)
     //console.log("\n")
     //
