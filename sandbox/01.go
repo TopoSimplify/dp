@@ -24,24 +24,6 @@ func main() {
     fmt.Println(o.String())
     o = NewLineString(tree.Simplify(0.6).At())
     fmt.Println (o.String())
-    //console.log(s)
-    //console.log("\n")
-    //
-    //var int = tree.int
-    //
-    //console.log(tree.print(tree.root, _keygen))
-    //console.log("\nerror threshold - 0 units\n")
-}
+    fmt.Println(o.Coordinates())
 
-func keygen(itm item.Item) string {
-    node := itm.(*bst.Node)
-    dpnode := node.Key.(*dp.Node)
-    ints := dpnode.Ints
-
-    inval := ints.Last().(*dp.Vertex)
-    key := dpnode.Key
-
-    var _val = Round(inval.Value(), 1)
-    var _int = inval.Index()
-    return "{" + strconv.Itoa(_int) + key.String() + "ε:" + fmt.Sprintf("%v", _val) + "}"
 }

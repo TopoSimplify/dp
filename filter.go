@@ -11,6 +11,9 @@ import (
 //param node
 //param res
 func (self *DP) Filter(n *bst.Node, res float64) {
+    if n == nil {
+        return;
+    }
 
     self.nodeset.Empty()
     var stack  = stack.NewStack()
@@ -27,9 +30,6 @@ func (self *DP) Filter(n *bst.Node, res float64) {
     for !stack.IsEmpty() {
         n = stack.Pop().(*bst.Node)
         node   = n.Key.(*Node)
-        if node == nil {
-            continue
-        }
 
         val = node.Ints.Last().(*Vertex).value
 

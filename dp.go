@@ -20,16 +20,17 @@ type DP struct {
 
 //DP constructor
 func NewDP(options Options, build bool) *DP {
-    self := &DP{BST: bst.NewBST()}
-
+    var self = &DP{BST: bst.NewBST()}
+    var isline, n = self.is_linear_coords(options.Polyline)
     //opts
-    self.pln     = options.Polyline
-    self.res     = options.Threshold
+    self.pln = options.Polyline
+    self.res = options.Threshold
     self.nodeset = sset.NewSSet()
-    self.Simple  = NewSimplex(len(self.pln))
+    self.Simple = NewSimplex(n)
 
     fn := options.Process
-    if build {
+
+    if build  && isline {
         self.Build(fn)
     }
     return self
@@ -37,6 +38,15 @@ func NewDP(options Options, build bool) *DP {
 //Polyline
 func (self *DP) Coordinates() []*Point {
     return self.pln;
+}
+
+//Polyline
+func (self *DP) is_linear_coords(coords []*Point) (bool, int) {
+    n := len(coords)
+    if n < 2 {
+        n = 0;
+    }
+    return  n >= 2 , n
 }
 
 /*
@@ -53,14 +63,14 @@ func (self *DP) Build(process ...func(*bst.Node)) *DP {
 }
 
 
- //Douglas Peucker BST
- //  uses iteration to build tree, state managed with a array stack
- //  Note:   int fn_int must return Int type sorted by most interesting
- //param [process][Function]   - optional process node callback
- //  should return node after process
- //  signature : process(node) node{}
- //param process
- //returns {DP}
+//Douglas Peucker BST
+//  uses iteration to build tree, state managed with a array stack
+//  Note:   int fn_int must return Int type sorted by most interesting
+//param [process][Function]   - optional process node callback
+//  should return node after process
+//  signature : process(node) node{}
+//param process
+//returns {DP}
 func (self *DP)  build(process func(*bst.Node)) *DP {
 
     var index int
@@ -70,7 +80,6 @@ func (self *DP)  build(process func(*bst.Node)) *DP {
 
     var n, l, r *bst.Node
     var stack = stack.NewStack()
-    var intset = sset.NewSSet()
 
     var node *Node
     var root = bst.NewNode(NewNode(range_))
@@ -93,8 +102,7 @@ func (self *DP)  build(process func(*bst.Node)) *DP {
         val = vobj.value
 
         if !math.IsNaN(val) && val <= self.res {
-            intset.Add(Int(range_[0]))
-            intset.Add(Int(range_[1]))
+            self.Simple.Add(range_[:]...)
         } else {
             //left and right branch
             l = bst.NewNode(
