@@ -1,17 +1,10 @@
 package dp
 
 import (
-    . "simplex/geom"
     . "simplex/struct/item"
-    "simplex/struct/bst"
     "simplex/struct/sset"
 )
 
-type Options struct {
-    Polyline  []*Point
-    Threshold float64
-    Process   func(*bst.Node)
-}
 
 //Type Simplex
 type Simplex struct {
@@ -19,6 +12,9 @@ type Simplex struct {
     rm *sset.SSet
     n  int
 }
+
+
+
 //New Simplex
 func NewSimplex(n int) *Simplex {
     if n < 2 {
@@ -62,8 +58,4 @@ func (self *Simplex) At() []int {
 func (self *Simplex) Rm() []int {
     return setvals_ints(self.rm)
 }
-
-
-
-
 

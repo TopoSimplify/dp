@@ -152,3 +152,18 @@ func TestDP2(t *testing.T) {
         })
     })
 }
+
+
+func TestLineDefln(t *testing.T) {
+    g := Goblin(t)
+
+    g.Describe("Line Deflection", func() {
+        g.It("tests the straight line deflection of a line", func() {
+            var dfln = NewLineDeflection()
+            g.Assert(Round(dfln.rad_defln, 2)).Equal(3.1)
+            dfln = NewLineDeflection(180.0)
+            g.Assert(dfln.rad_defln).Equal(Pi)
+            g.Assert(dfln.Deflection()).Eql(Pi)
+        })
+    })
+}
