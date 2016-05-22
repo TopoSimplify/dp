@@ -12,9 +12,9 @@ type Node  struct {
     Ints *slist.SList
 }
 
-func NewNode(key *Int2D) *Node {
+func NewNode(i, j int ) *Node {
     return &Node{
-        Key  : key,
+        Key  : NewInt2D(i , j),
         Hull : nil,
         Ints : nil,
     }
@@ -28,4 +28,3 @@ func (self *Node ) Compare(other  Item) int {
 func (self *Node) String() string {
     return self.Key.String()
 }
-

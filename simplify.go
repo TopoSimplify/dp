@@ -13,10 +13,9 @@ func (self *DP) Simplify(threhold ...float64) *DP {
         res = self.res
     }
 
-    var n = self.Root
     var node *Node
 
-    self.Filter(n, res)
+    self.Filter(self.Root, res)
 
     for !(self.nodeset.IsEmpty()) {
         node = self.nodeset.Shift().(*Node)

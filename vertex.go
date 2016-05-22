@@ -20,7 +20,6 @@ func (self *Vertex) Value() float64{
     return self.value
 }
 
-
 func NewVObj(i int , v float64) *Vertex {
     return &Vertex{index : Int(i) , value : v }
 }
@@ -44,4 +43,3 @@ func (self Vertex) String() string {
             strconv.FormatFloat(self.value, 'f', -1, 64) +
         "}"
 }
-

@@ -17,7 +17,7 @@ func (self *DP) Filter(n *bst.Node, res float64) {
 
     self.nodeset.Empty()
     var stack  = stack.NewStack()
-    var node   = n.Key.(*Node)
+    var node   = self.AsDPNode(n)
     var val    = node.Ints.Last().(*Vertex).value
 
     //early exit

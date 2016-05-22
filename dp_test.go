@@ -7,7 +7,6 @@ import (
     . "simplex/util/math"
     "simplex/struct/item"
     "fmt"
-    "simplex/struct/bst"
 )
 
 func TestDP(t *testing.T) {
@@ -42,7 +41,7 @@ func TestDP2(t *testing.T) {
             var tree = NewDP(Options{
                 Polyline    : data,
                 Threshold   : 0,
-                Process     : func(*bst.Node) {},
+                Process     : func(item.Item) {},
             }, true)
             fmt.Println(tree.Print())
 
@@ -108,7 +107,7 @@ func TestDP2(t *testing.T) {
                 var tree = NewDP(Options{
                     Polyline    : data,
                     Threshold   : 0,
-                    Process     : func(*bst.Node) {},
+                    Process     : func(item.Item) {},
                 }, true)
                 fmt.Println(tree.Print())
                 g.Assert(tree.Simple.At()).Eql([]int{0, 1, 3, 6, 8, 10})
@@ -122,7 +121,7 @@ func TestDP2(t *testing.T) {
                 var tree = NewDP(Options{
                     Polyline    : data,
                     Threshold   : 0,
-                    Process     : func(*bst.Node) {},
+                    Process     : func(item.Item) {},
                 }, true)
                 fmt.Println(tree.Print())
                 g.Assert(tree.Simple.At()).Eql([]int{})
@@ -133,7 +132,7 @@ func TestDP2(t *testing.T) {
                 var tree = NewDP(Options{
                     Polyline    : data,
                     Threshold   : 0,
-                    Process     : func(*bst.Node) {},
+                    Process     : func(item.Item) {},
                 }, true)
                 g.Assert(tree.Simple.At()).Eql([]int{})
                 g.Assert(tree.Simple.Rm()).Eql([]int{})
@@ -144,7 +143,7 @@ func TestDP2(t *testing.T) {
                 var tree = NewDP(Options{
                     Polyline    : data,
                     Threshold   : 0,
-                    Process     : func(*bst.Node) {},
+                    Process     : func(item.Item) {},
                 }, true)
                 g.Assert(tree.Simple.At()).Eql([]int{0, 1})
                 g.Assert(tree.Simple.Rm()).Eql([]int{})

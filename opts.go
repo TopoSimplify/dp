@@ -2,13 +2,13 @@ package dp
 
 import (
     "simplex/geom"
-    "simplex/struct/bst"
+    "simplex/struct/item"
 )
 
 type Options struct {
     Polyline  []*geom.Point
     Threshold float64
-    Process   func(*bst.Node)
+    Process   func(item.Item)
     Deflection *LineDeflection
 }
 
