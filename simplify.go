@@ -10,15 +10,15 @@ func (self *DP) Simplify(threhold ...float64) *DP {
     if len(threhold) > 0 {
         res = threhold[0]
     } else {
-        res = self.res
+        res = self.Res
     }
 
     var node *Node
 
     self.Filter(self.Root, res)
 
-    for !(self.nodeset.IsEmpty()) {
-        node = self.nodeset.Shift().(*Node)
+    for !(self.NodeSet.IsEmpty()) {
+        node = self.NodeSet.Shift().(*Node)
         //keep idxs interesting index
         self.Simple.Add(node.Key[:]...)
     }

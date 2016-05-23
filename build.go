@@ -40,7 +40,7 @@ func (self *DP)  build(process func(item Item)) *DP {
 
     var node *Node
     var root = bst.NewNode(
-        NewNode(0, len(self.pln) - 1),
+        NewNode(0, len(self.Pln) - 1),
     )
     self.BST.Root = root
 
@@ -60,7 +60,7 @@ func (self *DP)  build(process func(item Item)) *DP {
         index = int(vobj.index)
         val = vobj.value
 
-        if !math.IsNaN(val) && val <= self.res {
+        if !math.IsNaN(val) && val <= self.Res {
             self.Simple.Add(range_[:]...)
         } else {
             //left and right branch

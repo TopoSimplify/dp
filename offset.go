@@ -13,11 +13,11 @@ func (self *DP) Offsets(node *Node) *SList {
     var N = (indx[1] - indx[0]) - 1
 
     var intlist = NewSList(N)
-    var pln = self.pln
+    var pln = self.Pln
 
     opts := &vect.Options{
-        A : self.pln[indx[0]],
-        B : self.pln[indx[1]],
+        A : self.Pln[indx[0]],
+        B : self.Pln[indx[1]],
     }
     anchor := vect.NewVect(opts)
 

@@ -10,10 +10,10 @@ import (
 //Type DP
 type DP struct {
     *bst.BST
-    pln     []*Point
-    res     float64
+    Pln     []*Point
+    Res     float64
     Simple  *Simplex
-    nodeset *sset.SSet
+    NodeSet *sset.SSet
 }
 
 //DP constructor
@@ -21,9 +21,9 @@ func NewDP(options Options, build bool) *DP {
     var self = &DP{BST: bst.NewBST()}
     var isline, n = self.is_linear_coords(options.Polyline)
     //opts
-    self.pln = options.Polyline
-    self.res = options.Threshold
-    self.nodeset = sset.NewSSet()
+    self.Pln = options.Polyline
+    self.Res = options.Threshold
+    self.NodeSet = sset.NewSSet()
     self.Simple = NewSimplex(n)
 
     fn := options.Process
@@ -36,7 +36,7 @@ func NewDP(options Options, build bool) *DP {
 
 //Polyline
 func (self *DP) Coordinates() []*Point {
-    return self.pln;
+    return self.Pln;
 }
 
 //Polyline
@@ -48,16 +48,14 @@ func (self *DP) is_linear_coords(coords []*Point) (bool, int) {
     return  n >= 2 , n
 }
 
-
-
 //Get all i
 func (self *DP) At() []*Point {
-    return setvals_coords(self.pln, self.Simple.at)
+    return setvals_coords(self.Pln, self.Simple.at)
 }
 
 //Get all removed points
 func (self *DP) Rm() []*Point {
-    return setvals_coords(self.pln, self.Simple.rm)
+    return setvals_coords(self.Pln, self.Simple.rm)
 }
 
 //convert to dp node
