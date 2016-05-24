@@ -1,13 +1,9 @@
 package main
 
 import (
-    . "simplex/util/math"
     . "simplex/geom"
     "simplex/dp"
     "fmt"
-    "simplex/struct/bst"
-    "simplex/struct/item"
-    "strconv"
 )
 
 var data = []*Point{{0.5, 1.0}, {1.5, 2.0}, {2.5, 1.5}, {3.5, 2.5}, {4.0, 1.5}, {3.0, 1.0} }
