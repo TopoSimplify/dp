@@ -17,7 +17,7 @@ type DP struct {
 }
 
 //DP constructor
-func NewDP(options Options, build bool) *DP {
+func NewDP(options *Options, build bool) *DP {
     var self = &DP{BST: bst.NewBST()}
     var isline, n = self.is_linear_coords(options.Polyline)
     //opts

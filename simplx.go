@@ -13,8 +13,6 @@ type Simplex struct {
     n  int
 }
 
-
-
 //New Simplex
 func NewSimplex(n int) *Simplex {
     if n < 2 {
@@ -39,6 +37,8 @@ func (self *Simplex) Add(vals ...int) {
         }
     }
 }
+
+
 //Reset at and rm indices
 func (self *Simplex) Reset() *Simplex{
     self.at.Empty()
