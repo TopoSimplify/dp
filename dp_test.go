@@ -19,7 +19,7 @@ func TestDP(t *testing.T) {
                 {1.0, 0.4}, {2.0, 1.4},
                 {2.0, 0.8}, {2.5, 1.0},
             }
-            var tree = NewDP(Options{Polyline: data, Threshold: 0}, true)
+            var tree = NewDP(&Options{Polyline: data, Threshold: 0}, true)
             g.Assert(tree.Simple.At()).Eql([]int{0, 1, 2, 3, 4, 5})
             g.Assert(tree.Simplify(0).Simple.At()).Eql([]int{0, 1, 2, 3, 4, 5})
             g.Assert(tree.Simplify().Simple.At()).Eql([]int{0, 1, 2, 3, 4, 5})
@@ -38,7 +38,7 @@ func TestDP2(t *testing.T) {
                 {3.0, 1.6}, {3.0, 2.0}, {2.4, 2.8},
                 {0.5, 3.0}, {1.2, 3.2}, {1.4, 2.6}, {2.0, 3.5},
             }
-            var tree = NewDP(Options{
+            var tree = NewDP(&Options{
                 Polyline    : data,
                 Threshold   : 0,
                 Process     : func(item.Item) {},
@@ -104,7 +104,7 @@ func TestDP2(t *testing.T) {
 
                 fmt.Println(NewLineString(data))
 
-                var tree = NewDP(Options{
+                var tree = NewDP(&Options{
                     Polyline    : data,
                     Threshold   : 0,
                     Process     : func(item.Item) {},
@@ -118,7 +118,7 @@ func TestDP2(t *testing.T) {
         g.Describe("DP2-0-1-2", func() {
             g.It("dp with empty data", func() {
                 var data = []*Point{}
-                var tree = NewDP(Options{
+                var tree = NewDP(&Options{
                     Polyline    : data,
                     Threshold   : 0,
                     Process     : func(item.Item) {},
@@ -129,7 +129,7 @@ func TestDP2(t *testing.T) {
             })
             g.It("dp with one coordinate item", func() {
                 var data = []*Point{{3.0, 1.6}}
-                var tree = NewDP(Options{
+                var tree = NewDP(&Options{
                     Polyline    : data,
                     Threshold   : 0,
                     Process     : func(item.Item) {},
@@ -140,7 +140,7 @@ func TestDP2(t *testing.T) {
             })
             g.It("dp with two coordinate items", func() {
                 var data = []*Point{{3.0, 1.6}, {3.0, 2.0}}
-                var tree = NewDP(Options{
+                var tree = NewDP(&Options{
                     Polyline    : data,
                     Threshold   : 0,
                     Process     : func(item.Item) {},

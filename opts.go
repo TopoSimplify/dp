@@ -4,6 +4,7 @@ import (
     "simplex/geom"
     "simplex/struct/item"
     "simplex/struct/rtree"
+    "simplex/constrelate"
 )
 
 type Options struct {
@@ -12,6 +13,7 @@ type Options struct {
     Process    func(item.Item)
     Deflection *LineDeflection
     Db         *rtree.RTree
+    Constraints []*constrelate.Constraint
 }
 
 
