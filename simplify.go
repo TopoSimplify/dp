@@ -1,5 +1,6 @@
 package dp
 
+
 //Simplification at threshold
 func (self *DP) Simplify(threhold ...float64) *DP {
     //reset simple sets: at , rm
@@ -18,7 +19,7 @@ func (self *DP) Simplify(threhold ...float64) *DP {
     self.Filter(self.Root, res)
 
     for !(self.NodeSet.IsEmpty()) {
-        node = self.NodeSet.Shift().(*Node)
+        node = self.AsDPNode_BSTNode_Item(self.NodeSet.Shift())
         //keep idxs interesting index
         self.Simple.Add(node.Key[:]...)
     }
