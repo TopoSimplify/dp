@@ -13,7 +13,7 @@ type Options struct {
     Process    func(item.Item)
     Deflection *LineDeflection
     Db         *rtree.RTree
-    Constraints []*constrelate.Relation
+    Relations []constrelate.Relation
 }
 
 
