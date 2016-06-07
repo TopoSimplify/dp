@@ -55,7 +55,7 @@ func (self *DP)  build(process func(item Item)) *DP {
         range_ = node.Key
 
         node.Ints = self.Offsets(node)
-        vobj := node.Ints.Last().(*Vertex)
+        vobj := node.Ints.Peek().(*Vertex)
 
         index = int(vobj.index)
         val = vobj.value

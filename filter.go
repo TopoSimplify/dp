@@ -18,7 +18,7 @@ func (self *DP) Filter(n *bst.Node, res float64) {
     self.NodeSet.Empty()
     var stack  = stack.NewStack()
     var node   = self.AsDPNode(n)
-    var val    = node.Ints.Last().(*Vertex).value
+    var val    = node.Ints.Peek().(*Vertex).value
 
     //early exit
     if val < res {
@@ -31,7 +31,7 @@ func (self *DP) Filter(n *bst.Node, res float64) {
         n = stack.Pop().(*bst.Node)
         node   = n.Key.(*Node)
 
-        val = node.Ints.Last().(*Vertex).value
+        val = node.Ints.Peek().(*Vertex).value
 
         if !math.IsNaN(val) && val <= res {
             self.NodeSet.Add(n)

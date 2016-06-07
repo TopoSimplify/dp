@@ -3,13 +3,13 @@ package dp
 import (
     . "simplex/struct/item"
     "simplex/geom"
-    "simplex/struct/slist"
+    "simplex/struct/heap"
 )
 
 type Node  struct {
     Key  *Int2D
     Hull *geom.Polygon
-    Ints *slist.SList
+    Ints *heap.Heap
 }
 
 func NewNode(i, j int ) *Node {

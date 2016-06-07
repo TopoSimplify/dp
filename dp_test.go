@@ -54,7 +54,7 @@ func TestDP2(t *testing.T) {
 
             var n = tree.BST.Root
             var node = n.Key.(*Node)
-            var vect = node.Ints.Last().(*Vertex)
+            var vect = node.Ints.Peek().(*Vertex)
             var root_key = &item.Int2D{0, 6}
 
             g.Assert(node.String()).Eql(root_key.String())
@@ -65,7 +65,7 @@ func TestDP2(t *testing.T) {
 
             n = n.Right
             node = n.Key.(*Node)
-            vect = node.Ints.Last().(*Vertex)
+            vect = node.Ints.Peek().(*Vertex)
             fmt.Println(vect)
             g.Assert(vect.String()).Eql(fmt.Sprintf("{%v, %v}", vect.index, vect.value))
 
@@ -76,7 +76,7 @@ func TestDP2(t *testing.T) {
             n = tree.BST.Root
             n = n.Left
             node = n.Key.(*Node)
-            vect = node.Ints.Last().(*Vertex)
+            vect = node.Ints.Peek().(*Vertex)
 
             g.Assert(node.Key).Eql(&item.Int2D{0, 3})
             g.Assert(vect.index).Eql(item.Int(2))

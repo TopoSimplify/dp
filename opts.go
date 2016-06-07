@@ -4,7 +4,7 @@ import (
     "simplex/geom"
     "simplex/struct/item"
     "simplex/struct/rtree"
-    "simplex/constrelate"
+    "simplex/relations"
 )
 
 type Options struct {
@@ -13,7 +13,7 @@ type Options struct {
     Process    func(item.Item)
     Deflection *LineDeflection
     Db         *rtree.RTree
-    Relations []constrelate.Relation
+    Relations []relations.Relations
 }
 
 

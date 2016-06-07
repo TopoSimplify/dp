@@ -20,7 +20,7 @@ func keygen(itm Item) string {
     n := itm.(*bst.Node)
     node := n.Key.(*Node)
     ints := node.Ints
-    inval := ints.Last().(*Vertex)
+    inval := ints.Peek().(*Vertex)
     key := node.Key
 
     var _val = Round(inval.Value(), 1)
