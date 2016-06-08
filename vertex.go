@@ -12,8 +12,8 @@ type Vertex struct {
     value float64
 }
 
-func (self *Vertex) Index() int{
-    return int(self.index)
+func (self *Vertex) Index() Int{
+    return self.index
 }
 
 func (self *Vertex) Value() float64{

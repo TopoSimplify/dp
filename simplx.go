@@ -2,14 +2,14 @@ package dp
 
 import (
     . "simplex/struct/item"
-    "simplex/struct/sset"
+    . "simplex/struct/sset"
 )
 
 
 //Type Simplex
 type Simplex struct {
-    at *sset.SSet
-    rm *sset.SSet
+    at *SSet
+    rm *SSet
     n  int
 }
 
@@ -19,8 +19,8 @@ func NewSimplex(n int) *Simplex {
         n = 0;
     }
     var self = &Simplex{
-        at : sset.NewSSet(),
-        rm : sset.NewSSet(),
+        at : NewSSet(),
+        rm : NewSSet(),
         n  : n,
     }
 
@@ -28,16 +28,25 @@ func NewSimplex(n int) *Simplex {
 }
 
 func (self *Simplex) Add(vals ...int) {
-    var i Int
     for _, v := range vals {
-        i = Int(v)
-        if self.rm.Contains(i) {
-            self.at.Add(i)
-            self.rm.Remove(i)
-        }
+        self.UpdateInt(Int(v))
     }
 }
 
+
+func (self *Simplex ) AddSet(set *SSet){
+    set.Each(func(o Item) {
+        self.UpdateInt(o.(Int))
+    })
+}
+
+
+func (self *Simplex ) UpdateInt(i Int) {
+    if self.rm.Contains(i) {
+        self.at.Add(i)
+        self.rm.Remove(i)
+    }
+}
 
 //Reset at and rm indices
 func (self *Simplex) Reset() *Simplex{

@@ -1,5 +1,10 @@
 package dp
 
+import (
+    "simplex/struct/sset"
+    . "simplex/struct/item"
+)
+
 
 //Simplification at threshold
 func (self *DP) Simplify(threhold ...float64) *DP {
@@ -18,11 +23,16 @@ func (self *DP) Simplify(threhold ...float64) *DP {
 
     self.Filter(self.Root, res)
 
+    var intset = sset.NewSSet()
+
     for !(self.NodeSet.IsEmpty()) {
         node = self.AsDPNode_BSTNode_Item(self.NodeSet.Shift())
         //keep idxs interesting index
-        self.Simple.Add(node.Key[:]...)
+        intset.Add(Int(node.Key[0]))
+        intset.Add(Int(node.Key[1]))
     }
+    self.Simple.AddSet(intset)
 
     return self
 }
+

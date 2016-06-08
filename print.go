@@ -24,8 +24,10 @@ func keygen(itm Item) string {
     key := node.Key
 
     var _val = Round(inval.Value(), 1)
-    var _int = inval.Index()
-    return "{" + strconv.Itoa(_int) + key.String() + "ε:" +
-        fmt.Sprintf("%v", _val) + "}"
+    var _int = inval.Index().AsInteger()
+    return "{" +
+        strconv.Itoa(_int) + key.String() +
+        "ε:" + fmt.Sprintf("%v", _val) +
+        "}"
 }
 

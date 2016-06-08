@@ -7,6 +7,7 @@ import (
     . "simplex/util/math"
     "simplex/struct/item"
     "fmt"
+    "simplex/struct/sset"
 )
 
 func TestDP(t *testing.T) {
@@ -33,6 +34,7 @@ func TestDP2(t *testing.T) {
     g := Goblin(t)
 
     g.Describe("DP2", func() {
+
         g.It("dp with self intersection", func() {
             var data = []*Point{
                 {3.0, 1.6}, {3.0, 2.0}, {2.4, 2.8},
@@ -66,7 +68,7 @@ func TestDP2(t *testing.T) {
             n = n.Right
             node = n.Key.(*Node)
             vect = node.Ints.Peek().(*Vertex)
-            fmt.Println(vect)
+
             g.Assert(vect.String()).Eql(fmt.Sprintf("{%v, %v}", vect.index, vect.value))
 
             g.Assert(node.Key).Eql(&item.Int2D{3, 6})
@@ -127,6 +129,7 @@ func TestDP2(t *testing.T) {
                 g.Assert(tree.Simple.At()).Eql([]int{})
                 g.Assert(tree.Simple.Rm()).Eql([]int{})
             })
+
             g.It("dp with one coordinate item", func() {
                 var data = []*Point{{3.0, 1.6}}
                 var tree = NewDP(&Options{
@@ -138,6 +141,7 @@ func TestDP2(t *testing.T) {
                 g.Assert(tree.Simple.Rm()).Eql([]int{})
                 g.Assert(tree.Simplify(1).At()).Eql([]*Point{})
             })
+
             g.It("dp with two coordinate items", func() {
                 var data = []*Point{{3.0, 1.6}, {3.0, 2.0}}
                 var tree = NewDP(&Options{
@@ -152,7 +156,6 @@ func TestDP2(t *testing.T) {
     })
 }
 
-
 func TestLineDefln(t *testing.T) {
     g := Goblin(t)
 
@@ -163,6 +166,81 @@ func TestLineDefln(t *testing.T) {
             dfln = NewLineDeflection(180.0)
             g.Assert(dfln.rad_angle).Equal(Pi)
             g.Assert(dfln.Deflection()).Eql(Pi)
+        })
+    })
+}
+
+func TestNodeConversion(t *testing.T) {
+    g := Goblin(t)
+
+    g.Describe("Node Conversion", func() {
+        g.It("tests node conversion", func() {
+
+            var data = []*Point{
+                {3.0, 1.6}, {3.0, 2.0}, {2.4, 2.8},
+                {0.5, 3.0}, {1.2, 3.2}, {1.4, 2.6}, {2.0, 3.5},
+            }
+
+            var tree = NewDP(&Options{
+                Polyline    : data,
+                Threshold   : 0,
+                Process     : func(item.Item) {},
+            }, true)
+
+            var root_key = &item.Int2D{0, 6}
+
+            var node_bst = tree.BST.Root
+            var node_item item.Item = tree.BST.Root
+            var node_any interface{} = tree.BST.Root
+
+            var n0 = tree.AsDPNode(node_bst)
+            var n1 = tree.AsDPNode_BSTNode_Item(node_item)
+            var n2 = tree.AsDPNode_BSTNode_Any(node_any)
+            var n3 = tree.AsDPRange(node_bst)
+
+            g.Assert(n0.String()).Eql(root_key.String())
+            g.Assert(fmt.Sprintf("%T", n0)).Equal("*dp.Node")
+
+            g.Assert(n1.String()).Eql(root_key.String())
+            g.Assert(fmt.Sprintf("%T", n1)).Equal("*dp.Node")
+
+            g.Assert(n2.String()).Eql(root_key.String())
+            g.Assert(fmt.Sprintf("%T", n2)).Equal("*dp.Node")
+
+            g.Assert(n3.String()).Eql(root_key.String())
+            g.Assert(fmt.Sprintf("%T", n3)).Equal("*item.Int2D")
+
+            tree.Simple.Reset()
+
+            var at_list = make([]int, 0)
+            var rm_list = make([]int, 0)
+            tree.Simple.at.Each(func(o item.Item) {
+                at_list = append(at_list, int(o.(item.Int)))
+            })
+            tree.Simple.rm.Each(func(o item.Item) {
+                rm_list = append(rm_list, int(o.(item.Int)))
+            })
+
+            g.Assert(at_list).Eql([]int{ })
+            g.Assert(rm_list).Eql([]int{0, 1, 2, 3, 4, 5, 6, })
+
+            var intset = sset.NewSSet()
+            intset.Add(item.Int(0))
+            intset.Add(item.Int(6))
+            intset.Add(item.Int(2))
+            intset.Add(item.Int(4))
+            tree.Simple.AddSet(intset)
+
+            at_list = make([]int, 0)
+            rm_list = make([]int, 0)
+            tree.Simple.at.Each(func(o item.Item) {
+                at_list = append(at_list, int(o.(item.Int)))
+            })
+            tree.Simple.rm.Each(func(o item.Item) {
+                rm_list = append(rm_list, int(o.(item.Int)))
+            })
+            g.Assert(at_list).Eql([]int{0, 2, 4, 6, })
+            g.Assert(rm_list).Eql([]int{1, 3, 5,})
         })
     })
 }
