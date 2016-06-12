@@ -14,21 +14,24 @@ type DP struct {
     Res     float64
     Simple  *Simplex
     NodeSet *sset.SSet
+    opts    *Options
 }
 
 //DP constructor
 func NewDP(options *Options, build bool) *DP {
     var self = &DP{BST: bst.NewBST()}
-    var isline, n = self.is_linear_coords(options.Polyline)
-    //opts
-    self.Pln = options.Polyline
-    self.Res = options.Threshold
+
+    self.opts = options
+    self.Pln = self.opts.Polyline
+    self.Res = self.opts.Threshold
     self.NodeSet = sset.NewSSet()
+
+    var isline, n = self.is_linear_coords(self.Pln)
     self.Simple = NewSimplex(n)
 
     fn := options.Process
 
-    if build  && isline {
+    if build && isline {
         self.Build(fn)
     }
     return self
@@ -36,14 +39,14 @@ func NewDP(options *Options, build bool) *DP {
 
 //Polyline
 func (self *DP) Coordinates() []*Point {
-    return self.Pln;
+    return self.Pln
 }
 
 //Polyline
 func (self *DP) is_linear_coords(coords []*Point) (bool, int) {
     n := len(coords)
     if n < 2 {
-        n = 0;
+        n = 0
     }
     return  n >= 2 , n
 }

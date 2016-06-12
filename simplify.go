@@ -8,7 +8,8 @@ import (
 
 //Simplification at threshold
 func (self *DP) Simplify(opts *Options) *DP {
-    //reset simple sets: at , rm
+
+    self.opts = opts
     self.Simple.Reset()
 
     var res  = opts.Threshold
