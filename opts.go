@@ -14,6 +14,8 @@ type Options struct {
     Deflection *LineDeflection
     Db         *rtree.RTree
     Relations []relations.Relations
+    AvoidSelfIntersection bool
+    PreserveComplex  bool
 }
 
 
