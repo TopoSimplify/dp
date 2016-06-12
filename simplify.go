@@ -7,18 +7,11 @@ import (
 
 
 //Simplification at threshold
-func (self *DP) Simplify(threhold ...float64) *DP {
+func (self *DP) Simplify(opts *Options) *DP {
     //reset simple sets: at , rm
     self.Simple.Reset()
 
-    var res float64
-
-    if len(threhold) > 0 {
-        res = threhold[0]
-    } else {
-        res = self.Res
-    }
-
+    var res  = opts.Threshold
     var node *Node
 
     self.Filter(self.Root, res)

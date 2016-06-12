@@ -20,11 +20,16 @@ func TestDP(t *testing.T) {
                 {1.0, 0.4}, {2.0, 1.4},
                 {2.0, 0.8}, {2.5, 1.0},
             }
-            var tree = NewDP(&Options{Polyline: data, Threshold: 0}, true)
+            var opts = &Options{Polyline: data, Threshold: 0}
+            var tree = NewDP(opts, true)
             g.Assert(tree.Simple.At()).Eql([]int{0, 1, 2, 3, 4, 5})
-            g.Assert(tree.Simplify(0).Simple.At()).Eql([]int{0, 1, 2, 3, 4, 5})
-            g.Assert(tree.Simplify().Simple.At()).Eql([]int{0, 1, 2, 3, 4, 5})
-            g.Assert(tree.Simplify(0).Simple.Rm()).Eql([]int{})
+            g.Assert(tree.Simplify(opts).Simple.At()).Eql(
+                []int{0, 1, 2, 3, 4, 5},
+            )
+            g.Assert(tree.Simplify(opts.SetThreshold(0)).Simple.At()).Eql(
+                []int{0, 1, 2, 3, 4, 5},
+            )
+            g.Assert(tree.Simplify(opts).Simple.Rm()).Eql([]int{})
             g.Assert(tree.At()).Eql(data)
         })
     })
@@ -40,17 +45,22 @@ func TestDP2(t *testing.T) {
                 {3.0, 1.6}, {3.0, 2.0}, {2.4, 2.8},
                 {0.5, 3.0}, {1.2, 3.2}, {1.4, 2.6}, {2.0, 3.5},
             }
-            var tree = NewDP(&Options{
+            var opts = &Options{
                 Polyline    : data,
                 Threshold   : 0,
                 Process     : func(item.Item) {},
-            }, true)
+            }
+            var tree = NewDP(opts, true)
             fmt.Println(tree.Print())
 
-            g.Assert(tree.Simple.At()).Eql([]int{0, 1, 2, 3, 4, 5, 6})
+            g.Assert(tree.Simple.At()).Eql(
+                []int{0, 1, 2, 3, 4, 5, 6},
+            )
             g.Assert(tree.Simple.Rm()).Eql([]int{})
-            g.Assert(tree.Simplify(0).Simple.At()).Eql([]int{0, 1, 2, 3, 4, 5, 6})
-            g.Assert(tree.Simplify(0).Simple.Rm()).Eql([]int{})
+            g.Assert(tree.Simplify(opts).Simple.At()).Eql(
+                []int{0, 1, 2, 3, 4, 5, 6},
+            )
+            g.Assert(tree.Simplify(opts).Simple.Rm()).Eql([]int{})
             g.Assert(tree.At()).Eql(tree.Coordinates())
             g.Assert(tree.Rm()).Eql([]*Point{})
 
@@ -83,11 +93,11 @@ func TestDP2(t *testing.T) {
             g.Assert(node.Key).Eql(&item.Int2D{0, 3})
             g.Assert(vect.index).Eql(item.Int(2))
             g.Assert(Round(vect.value, 5)).Eql(0.75385)
-            g.Assert(tree.Simplify(1).At()).Eql(
+            g.Assert(tree.Simplify(opts.SetThreshold(1)).At()).Eql(
                 []*Point{data[0], data[3], data[6]},
             )
 
-            g.Assert(tree.Simplify(3).At()).Eql([]*Point{})
+            g.Assert(tree.Simplify(opts.SetThreshold(3)).At()).Eql([]*Point{})
 
         })
 
@@ -132,14 +142,22 @@ func TestDP2(t *testing.T) {
 
             g.It("dp with one coordinate item", func() {
                 var data = []*Point{{3.0, 1.6}}
-                var tree = NewDP(&Options{
-                    Polyline    : data,
-                    Threshold   : 0,
-                    Process     : func(item.Item) {},
-                }, true)
+                var opts = &Options{}
+                opts.SetThreshold(0,
+                    ).SetPolyline(data,
+                    ).SetDb(nil,
+                    ).SetProcess(func(item.Item) {},
+                    ).SetAvoidSelfIntersection(false,
+                    ).SetPreserveComplex(false,
+                    ).SetRelations(
+                    ).SetDeflection(nil)
+
+                var tree = NewDP(opts, true)
                 g.Assert(tree.Simple.At()).Eql([]int{})
                 g.Assert(tree.Simple.Rm()).Eql([]int{})
-                g.Assert(tree.Simplify(1).At()).Eql([]*Point{})
+                g.Assert(tree.Simplify(opts.SetThreshold(1)).At()).Eql(
+                    []*Point{},
+                )
             })
 
             g.It("dp with two coordinate items", func() {
@@ -221,7 +239,7 @@ func TestNodeConversion(t *testing.T) {
                 rm_list = append(rm_list, int(o.(item.Int)))
             })
 
-            g.Assert(at_list).Eql([]int{ })
+            g.Assert(at_list).Eql([]int{})
             g.Assert(rm_list).Eql([]int{0, 1, 2, 3, 4, 5, 6, })
 
             var intset = sset.NewSSet()
@@ -240,7 +258,7 @@ func TestNodeConversion(t *testing.T) {
                 rm_list = append(rm_list, int(o.(item.Int)))
             })
             g.Assert(at_list).Eql([]int{0, 2, 4, 6, })
-            g.Assert(rm_list).Eql([]int{1, 3, 5,})
+            g.Assert(rm_list).Eql([]int{1, 3, 5, })
         })
     })
 }
