@@ -3,17 +3,21 @@ package dp
 import (
     "simplex/vect"
     . "simplex/struct/heap"
+    . "simplex/geom"
 )
+//DP Offsets - Minimum Distance Offsets
+type DPOffsets struct {
+    Pln []*Point
+}
 
-//computes euclidean offset distance from dp - archor line
+//euclidean offset distance from dp - archor line
 //@param indx{Array} - [i, j] indices
-func (self *DP) Offsets(node *Node) *Heap {
+func (self *DPOffsets) Offsets(node *Node) *Heap {
     var indx = node.Key
     var dist float64
     var N = (indx[1] - indx[0]) - 1
 
     var ints = NewHeap(NewHeapType().AsMax())
-    var pln = self.Pln
 
     opts := &vect.Options{
         A : self.Pln[indx[0]],
@@ -23,7 +27,7 @@ func (self *DP) Offsets(node *Node) *Heap {
 
     if N > 0 {
         for i := indx[0] + 1; i < indx[1]; i++ {
-            dist = anchor.DistanceToPoint(pln[i])
+            dist = anchor.DistanceToPoint(self.Pln[i])
             ints.Push(NewVObj(i, dist))//store all index,dist
         }
     } else {
@@ -31,3 +35,5 @@ func (self *DP) Offsets(node *Node) *Heap {
     }
     return ints
 }
+
+

@@ -19,12 +19,12 @@ func (self *DP) Build(process ...func(item Item)) *DP {
     if len(process) > 0 && process[0] != nil {
         procFn = process[0]
     }
-    var offsetter  = self.OffsetFn
+    var offset = self.Offset
 
-    if offsetter == nil {
-        offsetter = self
+    if offset == nil {
+        //use local if global is nil
+        offset = self.offset
     }
-
 
     var index int
     var val float64
@@ -49,7 +49,7 @@ func (self *DP) Build(process ...func(item Item)) *DP {
         node = self.AsDPNode(n)
         range_ = node.Key
 
-        node.Ints = offsetter.Offsets(node)
+        node.Ints = offset.Offsets(node)
 
         vobj := node.Ints.Peek().(*Vertex)
 
