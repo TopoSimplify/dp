@@ -5,7 +5,12 @@ import (
     . "simplex/struct/item"
     "simplex/struct/bst"
     "simplex/struct/sset"
+    "simplex/struct/heap"
 )
+
+type Offsetter interface {
+    Offsets(node *Node) *heap.Heap
+}
 
 //Type DP
 type DP struct {
@@ -14,6 +19,7 @@ type DP struct {
     Res     float64
     Simple  *Simplex
     NodeSet *sset.SSet
+    OffsetFn Offsetter
     opts    *Options
 }
 
