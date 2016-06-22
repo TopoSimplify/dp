@@ -23,11 +23,8 @@ func keygen(itm Item) string {
     inval := ints.Peek().(*Vertex)
     key := node.Key
 
-    var _val = Round(inval.Value(), 1)
+    var _val = Round(inval.Value(), 3)
     var _int = inval.Index().AsInteger()
-    return "{" +
-        strconv.Itoa(_int) + key.String() +
-        "ε:" + fmt.Sprintf("%v", _val) +
-        "}"
+    return "(" + strconv.Itoa(_int) + ", " + fmt.Sprintf("%v", _val) + " " + key.String() + ")"
 }
 

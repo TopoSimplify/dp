@@ -1,12 +1,12 @@
 package dp
 
 import (
-    "testing"
     . "github.com/franela/goblin"
     . "simplex/geom"
     . "simplex/util/math"
-    "simplex/struct/item"
     "fmt"
+    "testing"
+    "simplex/struct/item"
     "simplex/struct/sset"
 )
 
