@@ -19,6 +19,8 @@ func NewLineDeflection(deg ...float64) *LineDeflection {
         math.Deg2rad(d),
     }
 }
+
+
 //Deflection in Radians
 func (self *LineDeflection) Deflection() float64 {
     return self.rad_angle
