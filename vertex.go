@@ -28,6 +28,12 @@ func (self *Vertex) Compare(o Item) int {
     var v  = o.(*Vertex)
     var dx = self.value - v.value
     if FloatEqual(dx, 0.0) {
+        //compare by index
+        if self.index > v.index {
+            return 1
+        } else if self.index < v.index {
+            return -1
+        }
         return 0
     } else if dx < 0 {
         return -1
