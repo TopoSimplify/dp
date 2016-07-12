@@ -33,13 +33,11 @@ func (self *Simplex) Add(vals ...int) {
     }
 }
 
-
 func (self *Simplex ) AddSet(set *SSet){
     set.Each(func(o Item) {
         self.UpdateInt(o.(Int))
     })
 }
-
 
 func (self *Simplex ) UpdateInt(i Int) {
     if self.rm.Contains(i) {
@@ -67,4 +65,3 @@ func (self *Simplex) At() []int {
 func (self *Simplex) Rm() []int {
     return setvals_ints(self.rm)
 }
-
