@@ -20,7 +20,7 @@ type DP struct {
     Simple  *Simplex
     NodeSet *sset.SSet
     Offset  Offsetter
-    opts    *Options  //options
+    opts    *Options   //options
     offset  *DPOffsets //default offsetter
 }
 
@@ -33,7 +33,7 @@ func NewDP(options *Options, build bool) *DP {
     self.Res = self.opts.Threshold
     self.NodeSet = sset.NewSSet()
 
-    self.offset = &DPOffsets{self.Pln}
+    self.offset = &DPOffsets{Pln : self.Pln}
 
     var isline, n = self.is_linear_coords(self.Pln)
     self.Simple = NewSimplex(n)

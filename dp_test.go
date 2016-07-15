@@ -10,6 +10,33 @@ import (
     "simplex/struct/sset"
 )
 
+func TestVertex(t *testing.T) {
+    g := Goblin(t)
+
+    g.Describe("Vertex", func() {
+        g.It("should test Vertex", func() {
+            a, b := &Vertex{index:item.Int(50),value: 1.0},
+                &Vertex{index:item.Int(10), value:2.0};
+
+            c, d := &Vertex{index:item.Int(1), value:0.4},
+                &Vertex{index:item.Int(20), value:0.4};
+
+            e, f := &Vertex{index:item.Int(2), value:8.8},
+                &Vertex{index:item.Int(2), value:8.8};
+
+            g.Assert(a.Compare(b)).Eql(-1)
+            g.Assert(b.Compare(a)).Eql(1)
+
+            g.Assert(c.Compare(d)).Eql(-1)
+            g.Assert(d.Compare(c)).Eql(1)
+
+            g.Assert(e.Compare(f)).Eql(0)
+            g.Assert(f.Compare(e)).Eql(0)
+        })
+    })
+}
+
+
 func TestDP(t *testing.T) {
     g := Goblin(t)
 
@@ -144,13 +171,13 @@ func TestDP2(t *testing.T) {
                 var data = []*Point{{3.0, 1.6}}
                 var opts = &Options{}
                 opts.SetThreshold(0,
-                    ).SetPolyline(data,
-                    ).SetDb(nil,
-                    ).SetProcess(func(item.Item) {},
-                    ).SetAvoidSelfIntersection(false,
-                    ).SetPreserveComplex(false,
-                    ).SetRelations(
-                    ).SetDeflection(nil)
+                ).SetPolyline(data,
+                ).SetDb(nil,
+                ).SetProcess(func(item.Item) {},
+                ).SetAvoidSelfIntersection(false,
+                ).SetPreserveComplex(false,
+                ).SetRelations(
+                ).SetDeflection(nil)
 
                 var tree = NewDP(opts, true)
                 g.Assert(tree.Simple.At()).Eql([]int{})
