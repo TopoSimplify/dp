@@ -1,9 +1,9 @@
 package dp
 
 import (
-    "simplex/vect"
     . "simplex/struct/heap"
     . "simplex/geom"
+    "simplex/cart2d"
 )
 //DP Offsets - Minimum Distance Offsets
 type DPOffsets struct {
@@ -18,16 +18,13 @@ func (self *DPOffsets) Offsets(node *Node) *Heap {
     var N = (indx[1] - indx[0]) - 1
 
     var ints = NewHeap(NewHeapType().AsMax())
-
-    opts := &vect.Options{
-        A : self.Pln[indx[0]],
-        B : self.Pln[indx[1]],
-    }
-    anchor := vect.NewVect(opts)
-
     if N > 0 {
         for i := indx[0] + 1; i < indx[1]; i++ {
-            dist = anchor.DistanceToPoint(self.Pln[i])
+            dist = cart2d.DistanceToPoint(
+                self.Pln[indx[0]],
+                self.Pln[indx[1]],
+                self.Pln[i],
+            )
             ints.Push(NewVObj(i, dist))//store all index,dist
         }
     } else {
