@@ -17,10 +17,9 @@ func main() {
     fmt.Println(tree_str)
 
     var o = NewLineString(tree.Coordinates())
-    fmt.Println(o.String())
+    fmt.Println(o.WKT())
     opts.Threshold = 0.6
     o = NewLineString(tree.Simplify(opts).At())
-    fmt.Println (o.String())
-    fmt.Println(o.Coordinates())
+    fmt.Println (o.WKT())
 
 }
