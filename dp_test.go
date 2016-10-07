@@ -2,8 +2,8 @@ package dp
 
 import (
     . "github.com/franela/goblin"
-    . "simplex/geom"
-    . "simplex/util/math"
+    "simplex/geom"
+    "simplex/util/math"
     "fmt"
     "testing"
     "simplex/struct/item"
@@ -42,7 +42,7 @@ func TestDP(t *testing.T) {
 
     g.Describe("DP", func() {
         g.It("douglas peucker algorithm", func() {
-            var data = []*Point{
+            var data = []*geom.Point{
                 {0.5, 1.0}, {1.0, 2.0},
                 {1.0, 0.4}, {2.0, 1.4},
                 {2.0, 0.8}, {2.5, 1.0},
@@ -68,7 +68,7 @@ func TestDP2(t *testing.T) {
     g.Describe("DP2", func() {
 
         g.It("dp with self intersection", func() {
-            var data = []*Point{
+            var data = []*geom.Point{
                 {3.0, 1.6}, {3.0, 2.0}, {2.4, 2.8},
                 {0.5, 3.0}, {1.2, 3.2}, {1.4, 2.6}, {2.0, 3.5},
             }
@@ -89,7 +89,7 @@ func TestDP2(t *testing.T) {
             )
             g.Assert(tree.Simplify(opts).Simple.Rm()).Eql([]int{})
             g.Assert(tree.At()).Eql(tree.Coordinates())
-            g.Assert(tree.Rm()).Eql([]*Point{})
+            g.Assert(tree.Rm()).Eql([]*geom.Point{})
 
             var n = tree.BST.Root
             var node = n.Key.(*Node)
@@ -100,7 +100,7 @@ func TestDP2(t *testing.T) {
 
             g.Assert(node.Key).Eql(root_key)
             g.Assert(vect.index).Eql(item.Int(3))
-            g.Assert(Round(vect.value, 5)).Eql(1.58114)
+            g.Assert(math.Round(vect.value, 5)).Eql(1.58114)
 
             n = n.Right
             node = n.Key.(*Node)
@@ -110,7 +110,7 @@ func TestDP2(t *testing.T) {
 
             g.Assert(node.Key).Eql(&item.Int2D{3, 6})
             g.Assert(vect.index).Eql(item.Int(5))
-            g.Assert(Round(vect.value, 5)).Eql(0.66408)
+            g.Assert(math.Round(vect.value, 5)).Eql(0.66408)
 
             n = tree.BST.Root
             n = n.Left
@@ -119,12 +119,12 @@ func TestDP2(t *testing.T) {
 
             g.Assert(node.Key).Eql(&item.Int2D{0, 3})
             g.Assert(vect.index).Eql(item.Int(2))
-            g.Assert(Round(vect.value, 5)).Eql(0.75385)
+            g.Assert(math.Round(vect.value, 5)).Eql(0.75385)
             g.Assert(tree.Simplify(opts.SetThreshold(1)).At()).Eql(
-                []*Point{data[0], data[3], data[6]},
+                []*geom.Point{data[0], data[3], data[6]},
             )
 
-            g.Assert(tree.Simplify(opts.SetThreshold(3)).At()).Eql([]*Point{})
+            g.Assert(tree.Simplify(opts.SetThreshold(3)).At()).Eql([]*geom.Point{})
 
         })
 
@@ -137,11 +137,11 @@ func TestDP2(t *testing.T) {
                            |                     |
                    (0)....(1)                   (8)....(9)...(10)
                  */
-                var data = []*Point{
+                var data = []*geom.Point{
                     {2, 0}, {4, 0}, {4, 1}, {4, 2}, {6, 2}, {8, 2}, {10, 2},
                     {10, 1}, {10, 0}, {11, 0}, {12, 0}}
 
-                fmt.Println(NewLineString(data))
+                fmt.Println(geom.NewLineString(data))
 
                 var tree = NewDP(&Options{
                     Polyline    : data,
@@ -156,7 +156,7 @@ func TestDP2(t *testing.T) {
 
         g.Describe("DP2-0-1-2", func() {
             g.It("dp with empty data", func() {
-                var data = []*Point{}
+                var data = []*geom.Point{}
                 var tree = NewDP(&Options{
                     Polyline    : data,
                     Threshold   : 0,
@@ -168,7 +168,7 @@ func TestDP2(t *testing.T) {
             })
 
             g.It("dp with one coordinate item", func() {
-                var data = []*Point{{3.0, 1.6}}
+                var data = []*geom.Point{{3.0, 1.6}}
                 var opts = &Options{}
                 opts.SetThreshold(0,
                 ).SetPolyline(data,
@@ -183,12 +183,12 @@ func TestDP2(t *testing.T) {
                 g.Assert(tree.Simple.At()).Eql([]int{})
                 g.Assert(tree.Simple.Rm()).Eql([]int{})
                 g.Assert(tree.Simplify(opts.SetThreshold(1)).At()).Eql(
-                    []*Point{},
+                    []*geom.Point{},
                 )
             })
 
             g.It("dp with two coordinate items", func() {
-                var data = []*Point{{3.0, 1.6}, {3.0, 2.0}}
+                var data = []*geom.Point{{3.0, 1.6}, {3.0, 2.0}}
                 var tree = NewDP(&Options{
                     Polyline    : data,
                     Threshold   : 0,
@@ -207,10 +207,10 @@ func TestLineDefln(t *testing.T) {
     g.Describe("Line Deflection", func() {
         g.It("tests the straight line deflection of a line", func() {
             var dfln = NewLineDeflection()
-            g.Assert(Round(dfln.rad_angle, 2)).Equal(3.1)
+            g.Assert(math.Round(dfln.rad_angle, 2)).Equal(3.1)
             dfln = NewLineDeflection(180.0)
-            g.Assert(dfln.rad_angle).Equal(Pi)
-            g.Assert(dfln.Deflection()).Eql(Pi)
+            g.Assert(dfln.rad_angle).Equal(math.Pi)
+            g.Assert(dfln.Deflection()).Eql(math.Pi)
         })
     })
 }
@@ -221,7 +221,7 @@ func TestNodeConversion(t *testing.T) {
     g.Describe("Node Conversion", func() {
         g.It("tests node conversion", func() {
 
-            var data = []*Point{
+            var data = []*geom.Point{
                 {3.0, 1.6}, {3.0, 2.0}, {2.4, 2.8},
                 {0.5, 3.0}, {1.2, 3.2}, {1.4, 2.6}, {2.0, 3.5},
             }
