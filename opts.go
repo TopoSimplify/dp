@@ -5,6 +5,7 @@ import (
 	"simplex/struct/rtree"
 	"simplex/relations"
 	"simplex/geom"
+	"math"
 )
 
 type Options struct {
@@ -17,6 +18,10 @@ type Options struct {
 	Relations             []relations.Relations
 	AvoidSelfIntersection bool
 	PreserveComplex       bool
+}
+
+func NewOptions()*Options{
+	return &Options{MinimumDist:math.MaxFloat64}
 }
 
 func (self *Options) SetPolyline(coords  []*geom.Point) *Options {
