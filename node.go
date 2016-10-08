@@ -1,26 +1,26 @@
 package dp
 
 import (
-    . "simplex/struct/item"
+    "simplex/struct/item"
     "simplex/geom"
     "simplex/struct/heap"
 )
 
 type Node  struct {
-    Key  *Int2D
+    Key  *item.Int2D
     Hull *geom.Polygon
     Ints *heap.Heap
 }
 
 func NewNode(i, j int ) *Node {
     return &Node{
-        Key  : NewInt2D(i , j),
+        Key  : item.NewInt2D(i , j),
         Hull : nil,
         Ints : nil,
     }
 }
 
-func (self *Node ) Compare(other  Item) int {
+func (self *Node ) Compare(other  item.Item) int {
     dpother := other.(*Node)
     return self.Key.Compare(dpother.Key)
 }

@@ -2,7 +2,7 @@ package dp
 
 import (
     "simplex/struct/sset"
-    . "simplex/struct/item"
+    "simplex/struct/item"
 )
 
 
@@ -22,8 +22,8 @@ func (self *DP) Simplify(opts *Options) *DP {
     for !(self.NodeSet.IsEmpty()) {
         node = self.AsDPNode_BSTNode_Item(self.NodeSet.Shift())
         //keep idxs interesting index
-        intset.Add(Int(node.Key[0]))
-        intset.Add(Int(node.Key[1]))
+        intset.Add(item.Int(node.Key[0]))
+        intset.Add(item.Int(node.Key[1]))
     }
     self.Simple.AddSet(intset)
 

@@ -1,8 +1,8 @@
 package dp
 
 import (
-    . "simplex/geom"
-    . "simplex/struct/item"
+    "simplex/geom"
+    "simplex/struct/item"
     "simplex/struct/bst"
     "simplex/struct/sset"
     "simplex/struct/heap"
@@ -15,7 +15,7 @@ type Offsetter interface {
 //Type DP
 type DP struct {
     *bst.BST
-    Pln     []*Point
+    Pln     []*geom.Point
     Res     float64
     Simple  *Simplex
     NodeSet *sset.SSet
@@ -47,12 +47,12 @@ func NewDP(options *Options, build bool) *DP {
 }
 
 //Polyline
-func (self *DP) Coordinates() []*Point {
+func (self *DP) Coordinates() []*geom.Point {
     return self.Pln
 }
 
 //Polyline
-func (self *DP) is_linear_coords(coords []*Point) (bool, int) {
+func (self *DP) is_linear_coords(coords []*geom.Point) (bool, int) {
     n := len(coords)
     if n < 2 {
         n = 0
@@ -61,12 +61,12 @@ func (self *DP) is_linear_coords(coords []*Point) (bool, int) {
 }
 
 //Get all i
-func (self *DP) At() []*Point {
+func (self *DP) At() []*geom.Point {
     return setvals_coords(self.Pln, self.Simple.at)
 }
 
 //Get all removed points
-func (self *DP) Rm() []*Point {
+func (self *DP) Rm() []*geom.Point {
     return setvals_coords(self.Pln, self.Simple.rm)
 }
 
@@ -76,7 +76,7 @@ func (self *DP) AsDPNode(node *bst.Node) *Node {
 }
 
 //convert to bst node
-func (self *DP) AsBSTNode_Item(item Item) *bst.Node {
+func (self *DP) AsBSTNode_Item(item item.Item) *bst.Node {
     return item.(*bst.Node)
 }
 
@@ -86,7 +86,7 @@ func (self *DP) AsBSTNode_Any(item interface{}) *bst.Node {
 }
 
 //convert to dp node from bst node as item interface
-func (self *DP) AsDPNode_BSTNode_Item(item Item) *Node {
+func (self *DP) AsDPNode_BSTNode_Item(item item.Item) *Node {
     return self.AsDPNode(self.AsBSTNode_Item(item))
 }
 
@@ -96,6 +96,6 @@ func (self *DP) AsDPNode_BSTNode_Any(any interface{}) *Node {
 }
 
 //convert to dp range
-func (self *DP) AsDPRange(node *bst.Node) *Int2D {
+func (self *DP) AsDPRange(node *bst.Node) *item.Int2D {
     return self.AsDPNode(node).Key
 }

@@ -1,15 +1,15 @@
 package dp
 
 import (
-    . "simplex/struct/item"
-    . "simplex/struct/sset"
+    "simplex/struct/item"
+    "simplex/struct/sset"
 )
 
 
 //Type Simplex
 type Simplex struct {
-    at *SSet
-    rm *SSet
+    at *sset.SSet
+    rm *sset.SSet
     n  int
 }
 
@@ -19,8 +19,8 @@ func NewSimplex(n int) *Simplex {
         n = 0;
     }
     var self = &Simplex{
-        at : NewSSet(),
-        rm : NewSSet(),
+        at : sset.NewSSet(),
+        rm : sset.NewSSet(),
         n  : n,
     }
 
@@ -29,17 +29,17 @@ func NewSimplex(n int) *Simplex {
 
 func (self *Simplex) Add(vals ...int) {
     for _, v := range vals {
-        self.UpdateInt(Int(v))
+        self.UpdateInt(item.Int(v))
     }
 }
 
-func (self *Simplex ) AddSet(set *SSet){
-    set.Each(func(o Item) {
-        self.UpdateInt(o.(Int))
+func (self *Simplex ) AddSet(set *sset.SSet){
+    set.Each(func(o item.Item) {
+        self.UpdateInt(o.(item.Int))
     })
 }
 
-func (self *Simplex ) UpdateInt(i Int) {
+func (self *Simplex ) UpdateInt(i item.Int) {
     if self.rm.Contains(i) {
         self.at.Add(i)
         self.rm.Remove(i)
@@ -51,7 +51,7 @@ func (self *Simplex) Reset() *Simplex{
     self.at.Empty()
     self.rm.Empty()
     for i := 0; i < self.n ; i++ {
-        self.rm.Add(Int(i))
+        self.rm.Add(item.Int(i))
     }
     return self
 }

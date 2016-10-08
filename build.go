@@ -1,7 +1,7 @@
 package dp
 
 import (
-    . "simplex/struct/item"
+    "simplex/struct/item"
     "simplex/struct/bst"
     "simplex/struct/stack"
     "math"
@@ -14,8 +14,8 @@ import (
 //  should return node after process
 //  signature : process(node) node{}
 //returns *DP
-func (self *DP) Build(process ...func(item Item)) *DP {
-    procFn := func(item Item) {}
+func (self *DP) Build(process ...func(item item.Item)) *DP {
+    procFn := func(item item.Item) {}
     if len(process) > 0 && process[0] != nil {
         procFn = process[0]
     }
@@ -29,7 +29,7 @@ func (self *DP) Build(process ...func(item Item)) *DP {
     var index int
     var val float64
 
-    var range_ *Int2D
+    var range_ *item.Int2D
     var n, l, r *bst.Node
     var stack = stack.NewStack()
 

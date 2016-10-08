@@ -16,7 +16,7 @@ func (self *DP) Filter(n *bst.Node, res float64) {
     }
 
     self.NodeSet.Empty()
-    var stack  = stack.NewStack()
+    var _stack = stack.NewStack()
     var node   = self.AsDPNode(n)
     var val    = node.Ints.Peek().(*Vertex).value
 
@@ -25,10 +25,10 @@ func (self *DP) Filter(n *bst.Node, res float64) {
         return
     }
 
-    stack.Add(n)
+    _stack.Add(n)
 
-    for !stack.IsEmpty() {
-        n = stack.Pop().(*bst.Node)
+    for !_stack.IsEmpty() {
+        n = _stack.Pop().(*bst.Node)
         node   = n.Key.(*Node)
 
         val = node.Ints.Peek().(*Vertex).value
@@ -36,8 +36,8 @@ func (self *DP) Filter(n *bst.Node, res float64) {
         if !math.IsNaN(val) && val <= res {
             self.NodeSet.Add(n)
         } else {
-            stack.Add(n.Right)
-            stack.Add(n.Left)
+            _stack.Add(n.Right)
+            _stack.Add(n.Left)
         }
     }
 }

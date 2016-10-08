@@ -1,18 +1,18 @@
 package dp
 
 import (
-    . "simplex/struct/item"
-    . "simplex/util/math"
+    "simplex/struct/item"
+    "simplex/util/math"
     "strconv"
 )
 
 
 type Vertex struct {
-    index Int
+    index item.Int
     value float64
 }
 
-func (self *Vertex) Index() Int{
+func (self *Vertex) Index() item.Int{
     return self.index
 }
 
@@ -21,13 +21,13 @@ func (self *Vertex) Value() float64{
 }
 
 func NewVObj(i int , v float64) *Vertex {
-    return &Vertex{index : Int(i) , value : v }
+    return &Vertex{index : item.Int(i) , value : v }
 }
 
-func (self *Vertex) Compare(o Item) int {
+func (self *Vertex) Compare(o item.Item) int {
     var v  = o.(*Vertex)
     var dx = self.value - v.value
-    if FloatEqual(dx, 0.0) {
+    if math.FloatEqual(dx, 0.0) {
         //compare by index
         if self.index > v.index {
             return 1
@@ -43,9 +43,6 @@ func (self *Vertex) Compare(o Item) int {
 
 //vertex to string
 func (self Vertex) String() string {
-    return "{" +
-            strconv.Itoa(int(self.index)) +
-        ", " +
-            strconv.FormatFloat(self.value, 'f', -1, 64) +
-        "}"
+    return "{" + strconv.Itoa(int(self.index)) + ", " +
+        strconv.FormatFloat(self.value, 'f', -1, 64) + "}"
 }
