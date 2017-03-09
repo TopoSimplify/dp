@@ -41,7 +41,7 @@ func (self *Vertex) Compare(o item.Item) int {
 }
 
 //vertex to string
-func (self Vertex) String() string {
+func (self *Vertex) String() string {
 	return "{" + strconv.Itoa(int(self.index)) + ", " +
 		strconv.FormatFloat(self.value, 'f', -1, 64) + "}"
 }
