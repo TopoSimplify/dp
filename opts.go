@@ -1,11 +1,11 @@
 package dp
 
 import (
+	"math"
+	"simplex/geom"
+	"simplex/relations"
 	"simplex/struct/item"
 	"simplex/struct/rtree"
-	"simplex/relations"
-	"simplex/geom"
-	"math"
 )
 
 type Options struct {
@@ -20,11 +20,11 @@ type Options struct {
 	PreserveComplex       bool
 }
 
-func NewOptions()*Options{
-	return &Options{MinimumDist:math.MaxFloat64}
+func NewOptions() *Options {
+	return &Options{MinimumDist: math.MaxFloat64}
 }
 
-func (self *Options) SetPolyline(coords  []*geom.Point) *Options {
+func (self *Options) SetPolyline(coords []*geom.Point) *Options {
 	self.Polyline = coords
 	return self
 }
@@ -34,17 +34,17 @@ func (self *Options) SetThreshold(threshold float64) *Options {
 	return self
 }
 
-func (self *Options) SetProcess(fn  func(item.Item)) *Options {
+func (self *Options) SetProcess(fn func(item.Item)) *Options {
 	self.Process = fn
 	return self
 }
 
-func (self *Options) SetDeflection(deflection  *LineDeflection) *Options {
+func (self *Options) SetDeflection(deflection *LineDeflection) *Options {
 	self.Deflection = deflection
 	return self
 }
 
-func (self *Options) SetDb(db  *rtree.RTree) *Options {
+func (self *Options) SetDb(db *rtree.RTree) *Options {
 	self.Db = db
 	return self
 }
@@ -54,17 +54,12 @@ func (self *Options) SetRelations(relates ...relations.Relations) *Options {
 	return self
 }
 
-func (self *Options) SetAvoidSelfIntersection(avoidself  bool) *Options {
+func (self *Options) SetAvoidSelfIntersection(avoidself bool) *Options {
 	self.AvoidSelfIntersection = avoidself
 	return self
 }
 
-func (self *Options) SetPreserveComplex(complx  bool) *Options {
+func (self *Options) SetPreserveComplex(complx bool) *Options {
 	self.PreserveComplex = complx
 	return self
 }
-
-
-
-
-

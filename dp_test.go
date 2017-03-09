@@ -7,11 +7,11 @@ import (
 	"simplex/util/math"
 	"simplex/struct/sset"
 	"simplex/struct/item"
-	. "github.com/franela/goblin"
+	"github.com/franela/goblin"
 )
 
 func TestVertex(t *testing.T) {
-	g := Goblin(t)
+	g := goblin.Goblin(t)
 
 	g.Describe("Vertex", func() {
 		g.It("should test Vertex", func() {
@@ -37,7 +37,7 @@ func TestVertex(t *testing.T) {
 }
 
 func TestDP(t *testing.T) {
-	g := Goblin(t)
+	g := goblin.Goblin(t)
 
 	g.Describe("DP", func() {
 		g.It("douglas peucker algorithm", func() {
@@ -65,7 +65,7 @@ func TestDP(t *testing.T) {
 }
 
 func TestDP2(t *testing.T) {
-	g := Goblin(t)
+	g := goblin.Goblin(t)
 
 	g.Describe("DP2", func() {
 
@@ -204,7 +204,7 @@ func TestDP2(t *testing.T) {
 }
 
 func TestLineDefln(t *testing.T) {
-	g := Goblin(t)
+	g := goblin.Goblin(t)
 
 	g.Describe("Line Deflection", func() {
 		g.It("tests the straight line deflection of a line", func() {
@@ -218,7 +218,7 @@ func TestLineDefln(t *testing.T) {
 }
 
 func TestNodeConversion(t *testing.T) {
-	g := Goblin(t)
+	g := goblin.Goblin(t)
 
 	g.Describe("Node Conversion", func() {
 		g.It("tests node conversion", func() {

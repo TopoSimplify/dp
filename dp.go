@@ -2,8 +2,8 @@ package dp
 
 import (
     "simplex/geom"
-    "simplex/struct/item"
     "simplex/struct/bst"
+    "simplex/struct/item"
     "simplex/struct/sset"
     "simplex/struct/heap"
 )
