@@ -4,12 +4,12 @@ import (
 	"simplex/pln"
 	"simplex/rng"
 	"simplex/lnr"
+	"simplex/node"
 	"github.com/intdxdt/cmp"
 	"github.com/intdxdt/geom"
 	"github.com/intdxdt/sset"
 	"github.com/intdxdt/deque"
 	"github.com/intdxdt/random"
-	"simplex/node"
 )
 
 //Type DP
