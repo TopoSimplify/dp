@@ -1,101 +1,76 @@
 package dp
 
 import (
-    "simplex/geom"
-    "simplex/struct/bst"
-    "simplex/struct/item"
-    "simplex/struct/sset"
-    "simplex/struct/heap"
+	"simplex/pln"
+	"simplex/rng"
+	"simplex/lnr"
+	"github.com/intdxdt/cmp"
+	"github.com/intdxdt/geom"
+	"github.com/intdxdt/sset"
+	"github.com/intdxdt/deque"
+	"github.com/intdxdt/random"
+	"simplex/node"
 )
 
-type Offsetter interface {
-    Offsets(node *Node) *heap.Heap
-}
-
 //Type DP
-type DP struct {
-    *bst.BST
-    Pln     []*geom.Point
-    Res     float64
-    Simple  *Simplex
-    NodeSet *sset.SSet
-    Offset  Offsetter
-    opts    *Options   //options
-    offset  *DPOffsets //default offsetter
+type DouglasPeucker struct {
+	Id    string
+	Hulls *deque.Deque
+	Pln   *pln.Polyline
+	Meta  map[string]interface{}
+
+	score  lnr.ScoreFn
+	simple *sset.SSet
 }
 
-//DP constructor
-func NewDP(options *Options, build bool) *DP {
-    var self = &DP{BST: bst.NewBST()}
+//Creates a new constrained DP Simplification instance
 
-    self.opts = options
-    self.Pln = self.opts.Polyline
-    self.Res = self.opts.Threshold
-    self.NodeSet = sset.NewSSet()
-
-    self.offset = &DPOffsets{Pln : self.Pln}
-
-    var isline, n = self.is_linear_coords(self.Pln)
-    self.Simple = NewSimplex(n)
-
-    fn := options.Process
-
-    if build && isline {
-        self.Build(fn)
-    }
-    return self
+func New(coordinates []*geom.Point, offsetScore lnr.ScoreFn) *DouglasPeucker {
+	var instance = &DouglasPeucker{
+		Id:     random.String(10),
+		Hulls:  deque.NewDeque(),
+		Meta:   make(map[string]interface{}, 0),
+		simple: sset.NewSSet(cmp.Int),
+		score:  offsetScore,
+	}
+	if len(coordinates) > 1 {
+		instance.Pln = pln.New(coordinates)
+	}
+	return instance
 }
 
-//Polyline
-func (self *DP) Coordinates() []*geom.Point {
-    return self.Pln
+func (self *DouglasPeucker) Simplify(threshold float64) *DouglasPeucker {
+	var hull *node.Node
+	var que = self.Decompose(threshold)
+
+	self.Hulls.Clear()
+	self.simple.Empty()
+
+	for !que.IsEmpty() {
+		hull = que.PopLeft().(*node.Node)
+		self.Hulls.Append(hull)
+		self.simple.Extend(hull.Range.I(), hull.Range.J())
+	}
+	return self
 }
 
-//Polyline
-func (self *DP) is_linear_coords(coords []*geom.Point) (bool, int) {
-    n := len(coords)
-    if n < 2 {
-        n = 0
-    }
-    return n >= 2, n
+func (self *DouglasPeucker) Simple() []int {
+	var indices = make([]int, self.simple.Size())
+	self.simple.ForEach(func(v interface{}, i int) bool {
+		indices[i] = v.(int)
+		return true
+	})
+	return indices
 }
 
-//Get all i
-func (self *DP) At() []*geom.Point {
-    return setvals_coords(self.Pln, self.Simple.at)
+func (self *DouglasPeucker) Coordinates() []*geom.Point {
+	return self.Pln.Coordinates
 }
 
-//Get all removed points
-func (self *DP) Rm() []*geom.Point {
-    return setvals_coords(self.Pln, self.Simple.rm)
+func (self *DouglasPeucker) Polyline() *pln.Polyline {
+	return self.Pln
 }
 
-//convert to dp node
-func (self *DP) AsDPNode(node *bst.Node) *Node {
-    return node.Key.(*Node)
-}
-
-//convert to bst node
-func (self *DP) AsBSTNode_Item(item item.Item) *bst.Node {
-    return item.(*bst.Node)
-}
-
-//convert to bst node
-func (self *DP) AsBSTNode_Any(item interface{}) *bst.Node {
-    return item.(*bst.Node)
-}
-
-//convert to dp node from bst node as item interface
-func (self *DP) AsDPNode_BSTNode_Item(item item.Item) *Node {
-    return self.AsDPNode(self.AsBSTNode_Item(item))
-}
-
-//convert to dp node from bst node as item interface
-func (self *DP) AsDPNode_BSTNode_Any(any interface{}) *Node {
-    return self.AsDPNode(self.AsBSTNode_Any(any))
-}
-
-//convert to dp range
-func (self *DP) AsDPRange(node *bst.Node) *item.Int2D {
-    return self.AsDPNode(node).Key
+func (self *DouglasPeucker) Score(pln lnr.Linear, rg *rng.Range) (int, float64) {
+	return self.score(pln, rg)
 }
