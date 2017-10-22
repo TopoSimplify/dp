@@ -6,6 +6,7 @@ import (
 	"simplex/lnr"
 	"simplex/node"
 	"simplex/opts"
+	"simplex/decompose"
 	"github.com/intdxdt/cmp"
 	"github.com/intdxdt/geom"
 	"github.com/intdxdt/sset"
@@ -15,20 +16,19 @@ import (
 
 //Type DP
 type DouglasPeucker struct {
-	Id        string
+	id        string
 	Hulls     *deque.Deque
 	Pln       *pln.Polyline
 	Meta      map[string]interface{}
-	Opts       *opts.Opts
+	Opts      *opts.Opts
 	ScoreFn   lnr.ScoreFn
 	SimpleSet *sset.SSet
 }
 
 //Creates a new constrained DP Simplification instance
-
 func New(coordinates []*geom.Point, options *opts.Opts, offsetScore lnr.ScoreFn) *DouglasPeucker {
 	var instance = &DouglasPeucker{
-		Id:        random.String(10),
+		id:        random.String(10),
 		Opts:      options,
 		Hulls:     deque.NewDeque(),
 		Meta:      make(map[string]interface{}, 0),
@@ -42,12 +42,19 @@ func New(coordinates []*geom.Point, options *opts.Opts, offsetScore lnr.ScoreFn)
 	return instance
 }
 
-func (self *DouglasPeucker) Simplify() *DouglasPeucker {
-	var hull *node.Node
-	var que = self.Decompose()
+func (self *DouglasPeucker) scoreRelation(val float64) bool {
+	return val <= self.Opts.Threshold
+}
 
+func (self *DouglasPeucker) Decompose() *deque.Deque {
+	return decompose.DouglasPeucker(self, self.scoreRelation, NodeGeometry)
+}
+
+func (self *DouglasPeucker) Simplify() *DouglasPeucker {
 	self.Hulls.Clear()
 	self.SimpleSet.Empty()
+	var hull *node.Node
+	var que = self.Decompose()
 
 	for !que.IsEmpty() {
 		hull = que.PopLeft().(*node.Node)
@@ -66,6 +73,10 @@ func (self *DouglasPeucker) Simple() []int {
 	return indices
 }
 
+func (self *DouglasPeucker) Id() string {
+	return self.id
+}
+
 func (self *DouglasPeucker) Options() *opts.Opts {
 	return self.Opts
 }
@@ -76,6 +87,10 @@ func (self *DouglasPeucker) Coordinates() []*geom.Point {
 
 func (self *DouglasPeucker) Polyline() *pln.Polyline {
 	return self.Pln
+}
+
+func (self *DouglasPeucker) NodeQueue() *deque.Deque {
+	return self.Hulls
 }
 
 func (self *DouglasPeucker) Score(pln lnr.Linear, rg *rng.Range) (int, float64) {
