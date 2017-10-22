@@ -3,10 +3,10 @@ package dp
 import (
 	"testing"
 	"simplex/node"
+	"simplex/opts"
 	"simplex/offset"
 	"github.com/intdxdt/geom"
 	"github.com/franela/goblin"
-	"simplex/opts"
 )
 
 func TestDecompose(t *testing.T) {
@@ -21,12 +21,12 @@ func TestDecompose(t *testing.T) {
 			var tree = New(coordinates, options, offset.MaxOffset)
 
 			options.Threshold = 120.0
-			var hulls = tree.Decompose(options.Threshold)
+			var hulls = tree.Decompose()
 
 			g.Assert(hulls.Len()).Equal(4)
 
 			options.Threshold = 150.0
-			hulls = tree.Decompose(options.Threshold)
+			hulls = tree.Decompose()
 
 			g.Assert(hulls.Len()).Equal(1)
 			h := hulls.Get(0).(*node.Node)

@@ -5,12 +5,12 @@ import (
 	"simplex/rng"
 	"simplex/lnr"
 	"simplex/node"
+	"simplex/opts"
 	"github.com/intdxdt/cmp"
 	"github.com/intdxdt/geom"
 	"github.com/intdxdt/sset"
 	"github.com/intdxdt/deque"
 	"github.com/intdxdt/random"
-	"simplex/opts"
 )
 
 //Type DP
@@ -44,7 +44,7 @@ func New(coordinates []*geom.Point, options *opts.Opts, offsetScore lnr.ScoreFn)
 
 func (self *DouglasPeucker) Simplify() *DouglasPeucker {
 	var hull *node.Node
-	var que = self.Decompose(self.Opts.Threshold)
+	var que = self.Decompose()
 
 	self.Hulls.Clear()
 	self.SimpleSet.Empty()
@@ -64,6 +64,10 @@ func (self *DouglasPeucker) Simple() []int {
 		return true
 	})
 	return indices
+}
+
+func (self *DouglasPeucker) Options() *opts.Opts {
+	return self.Opts
 }
 
 func (self *DouglasPeucker) Coordinates() []*geom.Point {

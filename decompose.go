@@ -8,9 +8,10 @@ import (
 )
 
 //Douglas Peucker decomposition at a given threshold
-func (self *DouglasPeucker) Decompose(threshold float64) *deque.Deque {
+func (self *DouglasPeucker) Decompose() *deque.Deque {
 	var k int
 	var val float64
+	var threshold = self.Opts.Threshold
 	var polyline = self.Polyline()
 	var hque = deque.NewDeque()
 
@@ -18,8 +19,6 @@ func (self *DouglasPeucker) Decompose(threshold float64) *deque.Deque {
 		return deque.NewDeque()
 	}
 	var rg = polyline.Range()
-
-
 	var s = stack.NewStack().Push(rg)
 
 	for !s.IsEmpty() {

@@ -2,10 +2,10 @@ package dp
 
 import (
 	"testing"
+	"simplex/opts"
 	"simplex/offset"
 	"github.com/intdxdt/geom"
 	"github.com/franela/goblin"
-	"simplex/opts"
 )
 
 func TestDP(t *testing.T) {
