@@ -42,12 +42,12 @@ func New(coordinates []*geom.Point, options *opts.Opts, offsetScore lnr.ScoreFn)
 	return instance
 }
 
-func (self *DouglasPeucker) scoreRelation(val float64) bool {
+func (self *DouglasPeucker) ScoreRelation(val float64) bool {
 	return val <= self.Opts.Threshold
 }
 
 func (self *DouglasPeucker) Decompose() *deque.Deque {
-	return decompose.DouglasPeucker(self, self.scoreRelation, NodeGeometry)
+	return decompose.DouglasPeucker(self, self.ScoreRelation, NodeGeometry)
 }
 
 func (self *DouglasPeucker) Simplify() *DouglasPeucker {
