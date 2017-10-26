@@ -47,7 +47,10 @@ func (self *DouglasPeucker) ScoreRelation(val float64) bool {
 }
 
 func (self *DouglasPeucker) Decompose() *deque.Deque {
-	return decompose.DouglasPeucker(self, self.ScoreRelation, NodeGeometry)
+	return decompose.DouglasPeucker(
+		self.Polyline(), self.ScoreFn,
+		self.ScoreRelation, NodeGeometry,
+	)
 }
 
 func (self *DouglasPeucker) Simplify() *DouglasPeucker {
@@ -93,6 +96,6 @@ func (self *DouglasPeucker) NodeQueue() *deque.Deque {
 	return self.Hulls
 }
 
-func (self *DouglasPeucker) Score(pln lnr.Linear, rg *rng.Range) (int, float64) {
-	return self.ScoreFn(pln, rg)
+func (self *DouglasPeucker) Score(coordinates []*geom.Point, rg *rng.Range) (int, float64) {
+	return self.ScoreFn(coordinates, rg.I())
 }

@@ -6,6 +6,7 @@ import (
 	"simplex/offset"
 	"github.com/intdxdt/geom"
 	"github.com/franela/goblin"
+	"time"
 )
 
 func TestDP(t *testing.T) {
@@ -13,6 +14,8 @@ func TestDP(t *testing.T) {
 
 	g.Describe("DP", func() {
 		g.It("douglas peucker algorithm", func() {
+			g.Timeout(1 * time.Hour)
+
 			var data = []*geom.Point{{0.5, 1.0}, {1.0, 2.0}, {1.0, 0.4}, {2.0, 1.4}, {2.0, 0.8}, {2.5, 1.0},}
 			var options = &opts.Opts{}
 			var tree = New(data, options, offset.MaxOffset)
@@ -24,10 +27,10 @@ func TestDP(t *testing.T) {
 
 func TestDP2(t *testing.T) {
 	g := goblin.Goblin(t)
-
 	g.Describe("DP2", func() {
-
 		g.It("dp with self intersection", func() {
+			g.Timeout(1 * time.Hour)
+
 			var data = []*geom.Point{
 				{3.0, 1.6}, {3.0, 2.0}, {2.4, 2.8},
 				{0.5, 3.0}, {1.2, 3.2}, {1.4, 2.6}, {2.0, 3.5},
@@ -35,9 +38,7 @@ func TestDP2(t *testing.T) {
 			var options = &opts.Opts{Threshold: 0}
 			var tree = New(data, options, offset.MaxOffset)
 			tree.Simplify()
-			g.Assert(tree.Simple()).Eql(
-				[]int{0, 1, 2, 3, 4, 5, 6},
-			)
+			g.Assert(tree.Simple()).Eql([]int{0, 1, 2, 3, 4, 5, 6})
 			options.Threshold = 1
 			g.Assert(tree.Simplify().Simple()).Eql([]int{0, 3, 6})
 
@@ -69,7 +70,7 @@ func TestDP2(t *testing.T) {
 			g.It("dp with empty data", func() {
 				var data = []*geom.Point{}
 				var options = &opts.Opts{}
-				var tree = New(data,options, offset.MaxOffset)
+				var tree = New(data, options, offset.MaxOffset)
 				tree.Simplify()
 				g.Assert(tree.Simple()).Eql([]int{})
 			})
@@ -77,7 +78,7 @@ func TestDP2(t *testing.T) {
 			g.It("dp with one coordinate item", func() {
 				var data = []*geom.Point{{3.0, 1.6}}
 				var options = &opts.Opts{}
-				var tree = New(data,options, offset.MaxOffset)
+				var tree = New(data, options, offset.MaxOffset)
 				tree.Simplify()
 				g.Assert(tree.Simple()).Eql([]int{})
 				options.Threshold = 1
@@ -87,7 +88,7 @@ func TestDP2(t *testing.T) {
 			g.It("dp with two coordinate items", func() {
 				var data = []*geom.Point{{3.0, 1.6}, {3.0, 2.0}}
 				var options = &opts.Opts{}
-				var tree = New(data,options, offset.MaxOffset)
+				var tree = New(data, options, offset.MaxOffset)
 				tree.Simplify()
 				g.Assert(tree.Simple()).Eql([]int{0, 1})
 			})
