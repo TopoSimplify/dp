@@ -2,7 +2,6 @@ package dp
 
 import (
 	"simplex/pln"
-	"simplex/rng"
 	"simplex/lnr"
 	"simplex/node"
 	"simplex/opts"
@@ -21,7 +20,7 @@ type DouglasPeucker struct {
 	Pln       *pln.Polyline
 	Meta      map[string]interface{}
 	Opts      *opts.Opts
-	ScoreFn   lnr.ScoreFn
+	Score     lnr.ScoreFn
 	SimpleSet *sset.SSet
 }
 
@@ -33,7 +32,7 @@ func New(coordinates []*geom.Point, options *opts.Opts, offsetScore lnr.ScoreFn)
 		Hulls:     deque.NewDeque(),
 		Meta:      make(map[string]interface{}, 0),
 		SimpleSet: sset.NewSSet(cmp.Int),
-		ScoreFn:   offsetScore,
+		Score:   offsetScore,
 	}
 
 	if len(coordinates) > 1 {
@@ -48,7 +47,7 @@ func (self *DouglasPeucker) ScoreRelation(val float64) bool {
 
 func (self *DouglasPeucker) Decompose() *deque.Deque {
 	return decompose.DouglasPeucker(
-		self.Polyline(), self.ScoreFn,
+		self.Polyline(), self.Score,
 		self.ScoreRelation, NodeGeometry,
 	)
 }
@@ -94,8 +93,4 @@ func (self *DouglasPeucker) Polyline() *pln.Polyline {
 
 func (self *DouglasPeucker) NodeQueue() *deque.Deque {
 	return self.Hulls
-}
-
-func (self *DouglasPeucker) Score(coordinates []*geom.Point, rg *rng.Range) (int, float64) {
-	return self.ScoreFn(coordinates, rg.I())
 }
