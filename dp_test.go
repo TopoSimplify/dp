@@ -1,12 +1,12 @@
 package dp
 
 import (
+	"time"
 	"testing"
 	"simplex/opts"
 	"simplex/offset"
 	"github.com/intdxdt/geom"
 	"github.com/franela/goblin"
-	"time"
 )
 
 func TestDP(t *testing.T) {
