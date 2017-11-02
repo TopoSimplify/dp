@@ -11,12 +11,13 @@ import (
     "github.com/intdxdt/geom"
     "github.com/intdxdt/sset"
     "github.com/intdxdt/random"
+    "github.com/intdxdt/deque"
 )
 
 //Type DP
 type DouglasPeucker struct {
     id        string
-    Hulls     *nque.Queue
+    Hulls     *deque.Deque
     Pln       *pln.Polyline
     Meta      map[string]interface{}
     Opts      *opts.Opts
@@ -29,7 +30,7 @@ func New(coordinates []*geom.Point, options *opts.Opts, offsetScore lnr.ScoreFn)
     var instance = &DouglasPeucker{
         id:        random.String(10),
         Opts:      options,
-        Hulls:     nque.NewQueue(),
+        Hulls:     deque.NewDeque(),
         Meta:      make(map[string]interface{}, 0),
         SimpleSet: sset.NewSSet(cmp.Int),
         Score:     offsetScore,
@@ -91,6 +92,6 @@ func (self *DouglasPeucker) Polyline() *pln.Polyline {
     return self.Pln
 }
 
-func (self *DouglasPeucker) NodeQueue() *nque.Queue {
+func (self *DouglasPeucker) NodeQueue() *deque.Deque {
     return self.Hulls
 }
