@@ -5,7 +5,6 @@ import (
     "simplex/lnr"
     "simplex/node"
     "simplex/opts"
-    "simplex/nque"
     "simplex/decompose"
     "github.com/intdxdt/cmp"
     "github.com/intdxdt/geom"
@@ -46,7 +45,7 @@ func (self *DouglasPeucker) ScoreRelation(val float64) bool {
     return val <= self.Opts.Threshold
 }
 
-func (self *DouglasPeucker) Decompose() *nque.Queue {
+func (self *DouglasPeucker) Decompose() *deque.Deque {
     return decompose.DouglasPeucker(
         self.Polyline(), self.Score,
         self.ScoreRelation, NodeGeometry,
