@@ -46,8 +46,10 @@ func (self *DouglasPeucker) ScoreRelation(val float64) bool {
 
 func (self *DouglasPeucker) Decompose() []*node.Node {
 	return decompose.DouglasPeucker(
-		self.Polyline(), self.Score,
-		self.ScoreRelation, NodeGeometry,
+		self.Polyline(),
+		self.Score,
+		self.ScoreRelation,
+		NodeGeometry,
 	)
 }
 
@@ -57,7 +59,7 @@ func (self *DouglasPeucker) Simplify() *DouglasPeucker {
 	self.Hulls = self.Decompose()
 
 	for _, hull = range self.Hulls {
-		self.SimpleSet.Extend(hull.Range.I(), hull.Range.J())
+		self.SimpleSet.Extend(hull.Range.I, hull.Range.J)
 	}
 	return self
 }

@@ -13,7 +13,6 @@ func main() {
 	var options = &opts.Opts{Threshold:20}
 	var data = geom.NewLineStringFromWKT(ln).Coordinates()
 	var tree = dp.New(data, options, offset.MaxOffset)
-
 	var o = geom.NewLineString(tree.Coordinates())
 	fmt.Println(o.WKT())
 
