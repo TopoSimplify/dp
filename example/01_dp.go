@@ -2,10 +2,10 @@ package main
 
 import (
 	"fmt"
-	"simplex/dp"
-	"simplex/offset"
 	"github.com/intdxdt/geom"
-	"simplex/opts"
+	"github.com/TopoSimplify/dp"
+	"github.com/TopoSimplify/opts"
+	"github.com/TopoSimplify/offset"
 )
 
 func main() {

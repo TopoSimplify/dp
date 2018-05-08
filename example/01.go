@@ -2,9 +2,9 @@ package main
 
 import (
 	"fmt"
-	"simplex/dp"
-	"simplex/opts"
-	"simplex/offset"
+	"github.com/TopoSimplify/dp"
+	"github.com/TopoSimplify/opts"
+	"github.com/TopoSimplify/offset"
 	"github.com/intdxdt/geom"
 )
 

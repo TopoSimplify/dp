@@ -3,10 +3,10 @@ package dp
 import (
 	"time"
 	"testing"
-	"simplex/opts"
-	"simplex/offset"
 	"github.com/intdxdt/geom"
 	"github.com/franela/goblin"
+	"github.com/TopoSimplify/opts"
+	"github.com/TopoSimplify/offset"
 )
 
 func TestDP(t *testing.T) {

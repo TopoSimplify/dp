@@ -1,15 +1,15 @@
 package dp
 
 import (
-	"simplex/pln"
-	"simplex/lnr"
-	"simplex/node"
-	"simplex/opts"
-	"simplex/decompose"
 	"github.com/intdxdt/cmp"
 	"github.com/intdxdt/geom"
 	"github.com/intdxdt/sset"
 	"github.com/intdxdt/random"
+	"github.com/TopoSimplify/pln"
+	"github.com/TopoSimplify/lnr"
+	"github.com/TopoSimplify/node"
+	"github.com/TopoSimplify/opts"
+	"github.com/TopoSimplify/decompose"
 )
 
 //Type DP
