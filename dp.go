@@ -24,7 +24,7 @@ type DouglasPeucker struct {
 }
 
 //Creates a new constrained DP Simplification instance
-func New(coordinates []*geom.Point, options *opts.Opts, offsetScore lnr.ScoreFn) *DouglasPeucker {
+func New(coordinates []geom.Point, options *opts.Opts, offsetScore lnr.ScoreFn) *DouglasPeucker {
 	var instance = &DouglasPeucker{
 		id:        random.String(10),
 		Opts:      options,
@@ -81,7 +81,7 @@ func (self *DouglasPeucker) Options() *opts.Opts {
 	return self.Opts
 }
 
-func (self *DouglasPeucker) Coordinates() []*geom.Point {
+func (self *DouglasPeucker) Coordinates() []geom.Point {
 	return self.Pln.Coordinates
 }
 
