@@ -86,6 +86,3 @@ func (self *DouglasPeucker) Polyline() *pln.Polyline {
 	return self.Pln
 }
 
-func (self *DouglasPeucker) NodeQueue() []node.Node {
-	return self.Hulls
-}

@@ -43,7 +43,6 @@ func TestDP2(t *testing.T) {
 			g.Assert(tree.Simplify().Simple()).Eql([]int{0, 3, 6})
 
 			g.Assert(tree.Options()).Equal(tree.Opts)
-			g.Assert(tree.NodeQueue()).Equal(tree.Hulls)
 			g.Assert(tree.Coordinates()).Equal(data)
 			g.Assert(tree.Id()).Equal(tree.id)
 			g.Assert(NodeGeometry([]geom.Point{data[0]}).(geom.Point)).Equal(data[0])
