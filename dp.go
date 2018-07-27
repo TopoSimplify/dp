@@ -15,7 +15,7 @@ import (
 //Type DP
 type DouglasPeucker struct {
 	id        string
-	Hulls     []*node.Node
+	Hulls     []node.Node
 	Pln       *pln.Polyline
 	Meta      map[string]interface{}
 	Opts      *opts.Opts
@@ -28,7 +28,7 @@ func New(coordinates []geom.Point, options *opts.Opts, offsetScore lnr.ScoreFn) 
 	var instance = &DouglasPeucker{
 		id:        random.String(10),
 		Opts:      options,
-		Hulls:     []*node.Node{},
+		Hulls:     []node.Node{},
 		Meta:      make(map[string]interface{}, 0),
 		SimpleSet: sset.NewSSet(cmp.Int),
 		Score:     offsetScore,
@@ -44,7 +44,7 @@ func (self *DouglasPeucker) ScoreRelation(val float64) bool {
 	return val <= self.Opts.Threshold
 }
 
-func (self *DouglasPeucker) Decompose() []*node.Node {
+func (self *DouglasPeucker) Decompose() []node.Node {
 	return decompose.DouglasPeucker(
 		self.Polyline(), self.Score,
 		self.ScoreRelation, NodeGeometry,
@@ -52,12 +52,11 @@ func (self *DouglasPeucker) Decompose() []*node.Node {
 }
 
 func (self *DouglasPeucker) Simplify() *DouglasPeucker {
-	var hull *node.Node
 	self.SimpleSet.Empty()
 	self.Hulls = self.Decompose()
 
-	for _, hull = range self.Hulls {
-		self.SimpleSet.Extend(hull.Range.I, hull.Range.J)
+	for i := range self.Hulls {
+		self.SimpleSet.Extend(self.Hulls[i].Range.I, self.Hulls[i].Range.J)
 	}
 	return self
 }
@@ -87,6 +86,6 @@ func (self *DouglasPeucker) Polyline() *pln.Polyline {
 	return self.Pln
 }
 
-func (self *DouglasPeucker) NodeQueue() []*node.Node {
+func (self *DouglasPeucker) NodeQueue() []node.Node {
 	return self.Hulls
 }
