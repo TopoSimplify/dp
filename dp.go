@@ -10,6 +10,7 @@ import (
 	"github.com/TopoSimplify/node"
 	"github.com/TopoSimplify/opts"
 	"github.com/TopoSimplify/decompose"
+	"github.com/intdxdt/iter"
 )
 
 //Type DP
@@ -44,16 +45,16 @@ func (self *DouglasPeucker) ScoreRelation(val float64) bool {
 	return val <= self.Opts.Threshold
 }
 
-func (self *DouglasPeucker) Decompose() []node.Node {
+func (self *DouglasPeucker) Decompose(id *iter.Igen) []node.Node {
 	return decompose.DouglasPeucker(
-		self.Polyline(), self.Score,
+		id, self.Polyline(), self.Score,
 		self.ScoreRelation, NodeGeometry,
 	)
 }
 
-func (self *DouglasPeucker) Simplify() *DouglasPeucker {
+func (self *DouglasPeucker) Simplify(id *iter.Igen) *DouglasPeucker {
 	self.SimpleSet.Empty()
-	self.Hulls = self.Decompose()
+	self.Hulls = self.Decompose(id)
 
 	for i := range self.Hulls {
 		self.SimpleSet.Extend(self.Hulls[i].Range.I, self.Hulls[i].Range.J)
