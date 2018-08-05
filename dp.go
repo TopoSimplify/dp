@@ -11,6 +11,7 @@ import (
 	"github.com/TopoSimplify/opts"
 	"github.com/TopoSimplify/decompose"
 	"github.com/intdxdt/iter"
+	"github.com/TopoSimplify/common"
 )
 
 //Type DP
@@ -25,7 +26,7 @@ type DouglasPeucker struct {
 }
 
 //Creates a new constrained DP Simplification instance
-func New(coordinates []geom.Point, options *opts.Opts, offsetScore lnr.ScoreFn) *DouglasPeucker {
+func New(coordinates geom.Coords, options *opts.Opts, offsetScore lnr.ScoreFn) *DouglasPeucker {
 	var instance = &DouglasPeucker{
 		id:        random.String(10),
 		Opts:      options,
@@ -35,7 +36,7 @@ func New(coordinates []geom.Point, options *opts.Opts, offsetScore lnr.ScoreFn) 
 		Score:     offsetScore,
 	}
 
-	if len(coordinates) > 1 {
+	if coordinates.Len() > 1 {
 		instance.Pln = pln.New(coordinates)
 	}
 	return instance
@@ -48,7 +49,7 @@ func (self *DouglasPeucker) ScoreRelation(val float64) bool {
 func (self *DouglasPeucker) Decompose(id *iter.Igen) []node.Node {
 	return decompose.DouglasPeucker(
 		id, self.Polyline(), self.Score,
-		self.ScoreRelation, NodeGeometry,
+		self.ScoreRelation, common.Geometry,
 	)
 }
 
@@ -79,7 +80,7 @@ func (self *DouglasPeucker) Options() *opts.Opts {
 	return self.Opts
 }
 
-func (self *DouglasPeucker) Coordinates() []geom.Point {
+func (self *DouglasPeucker) Coordinates() geom.Coords {
 	return self.Pln.Coordinates
 }
 
