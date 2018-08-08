@@ -18,7 +18,7 @@ import (
 type DouglasPeucker struct {
 	id        string
 	Hulls     []node.Node
-	Pln       *pln.Polyline
+	Pln       pln.Polyline
 	Meta      map[string]interface{}
 	Opts      *opts.Opts
 	Score     lnr.ScoreFn
@@ -37,7 +37,7 @@ func New(coordinates geom.Coords, options *opts.Opts, offsetScore lnr.ScoreFn) *
 	}
 
 	if coordinates.Len() > 1 {
-		instance.Pln = pln.New(coordinates)
+		instance.Pln = pln.CreatePolyline(coordinates)
 	}
 	return instance
 }
@@ -84,7 +84,7 @@ func (self *DouglasPeucker) Coordinates() geom.Coords {
 	return self.Pln.Coordinates
 }
 
-func (self *DouglasPeucker) Polyline() *pln.Polyline {
+func (self *DouglasPeucker) Polyline() pln.Polyline {
 	return self.Pln
 }
 
