@@ -25,8 +25,12 @@ type DouglasPeucker struct {
 }
 
 //Creates a new constrained DP Simplification instance
-func New(id int, coordinates geom.Coords,
-	options *opts.Opts, offsetScore lnr.ScoreFn) *DouglasPeucker {
+func New(
+	id int,
+	coordinates geom.Coords,
+	options *opts.Opts,
+	offsetScore lnr.ScoreFn,
+) *DouglasPeucker {
 	var instance = DouglasPeucker{
 		id:        id,
 		Opts:      options,
@@ -47,8 +51,12 @@ func (self *DouglasPeucker) ScoreRelation(val float64) bool {
 
 func (self *DouglasPeucker) Decompose(id *iter.Igen) []node.Node {
 	return decompose.DouglasPeucker(
-		id, self.Polyline(), self.Score,
-		self.ScoreRelation, common.Geometry,
+		id,
+		self.Polyline(),
+		self.Score,
+		self.ScoreRelation,
+		common.Geometry,
+		self,
 	)
 }
 
