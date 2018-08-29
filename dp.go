@@ -1,8 +1,8 @@
 package dp
 
 import (
-	"github.com/intdxdt/iter"
 	"github.com/intdxdt/cmp"
+	"github.com/intdxdt/iter"
 	"github.com/intdxdt/geom"
 	"github.com/intdxdt/sset"
 	"github.com/TopoSimplify/pln"
@@ -27,10 +27,9 @@ type DouglasPeucker struct {
 //Creates a new constrained DP Simplification instance
 func New(id int, coordinates geom.Coords,
 	options *opts.Opts, offsetScore lnr.ScoreFn) *DouglasPeucker {
-	var instance = &DouglasPeucker{
+	var instance = DouglasPeucker{
 		id:        id,
 		Opts:      options,
-		Hulls:     []node.Node{},
 		Meta:      make(map[string]interface{}, 0),
 		SimpleSet: sset.NewSSet(cmp.Int),
 		Score:     offsetScore,
@@ -39,7 +38,7 @@ func New(id int, coordinates geom.Coords,
 	if coordinates.Len() > 1 {
 		instance.Pln = pln.CreatePolyline(coordinates)
 	}
-	return instance
+	return &instance
 }
 
 func (self *DouglasPeucker) ScoreRelation(val float64) bool {
@@ -71,9 +70,13 @@ func (self *DouglasPeucker) Simple() []int {
 	return indices
 }
 
-func (self *DouglasPeucker) Id() int { return self.id }
+func (self *DouglasPeucker) Id() int {
+	return self.id
+}
 
-func (self *DouglasPeucker) Options() *opts.Opts { return self.Opts }
+func (self *DouglasPeucker) Options() *opts.Opts {
+	return self.Opts
+}
 
 func (self *DouglasPeucker) Coordinates() geom.Coords {
 	return self.Pln.Coordinates
