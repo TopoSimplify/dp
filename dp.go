@@ -1,22 +1,21 @@
 package dp
 
 import (
+	"github.com/intdxdt/iter"
 	"github.com/intdxdt/cmp"
 	"github.com/intdxdt/geom"
 	"github.com/intdxdt/sset"
-	"github.com/intdxdt/random"
 	"github.com/TopoSimplify/pln"
 	"github.com/TopoSimplify/lnr"
 	"github.com/TopoSimplify/node"
 	"github.com/TopoSimplify/opts"
-	"github.com/TopoSimplify/decompose"
-	"github.com/intdxdt/iter"
 	"github.com/TopoSimplify/common"
+	"github.com/TopoSimplify/decompose"
 )
 
 //Type DP
 type DouglasPeucker struct {
-	id        string
+	id        int
 	Hulls     []node.Node
 	Pln       pln.Polyline
 	Meta      map[string]interface{}
@@ -26,9 +25,10 @@ type DouglasPeucker struct {
 }
 
 //Creates a new constrained DP Simplification instance
-func New(coordinates geom.Coords, options *opts.Opts, offsetScore lnr.ScoreFn) *DouglasPeucker {
+func New(id int, coordinates geom.Coords,
+	options *opts.Opts, offsetScore lnr.ScoreFn) *DouglasPeucker {
 	var instance = &DouglasPeucker{
-		id:        random.String(10),
+		id:        id,
 		Opts:      options,
 		Hulls:     []node.Node{},
 		Meta:      make(map[string]interface{}, 0),
@@ -56,7 +56,6 @@ func (self *DouglasPeucker) Decompose(id *iter.Igen) []node.Node {
 func (self *DouglasPeucker) Simplify(id *iter.Igen) *DouglasPeucker {
 	self.SimpleSet.Empty()
 	self.Hulls = self.Decompose(id)
-
 	for i := range self.Hulls {
 		self.SimpleSet.Extend(self.Hulls[i].Range.I, self.Hulls[i].Range.J)
 	}
@@ -72,13 +71,9 @@ func (self *DouglasPeucker) Simple() []int {
 	return indices
 }
 
-func (self *DouglasPeucker) Id() string {
-	return self.id
-}
+func (self *DouglasPeucker) Id() int { return self.id }
 
-func (self *DouglasPeucker) Options() *opts.Opts {
-	return self.Opts
-}
+func (self *DouglasPeucker) Options() *opts.Opts { return self.Opts }
 
 func (self *DouglasPeucker) Coordinates() geom.Coords {
 	return self.Pln.Coordinates
@@ -87,4 +82,3 @@ func (self *DouglasPeucker) Coordinates() geom.Coords {
 func (self *DouglasPeucker) Polyline() pln.Polyline {
 	return self.Pln
 }
-
