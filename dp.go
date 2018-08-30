@@ -23,7 +23,7 @@ type DouglasPeucker struct {
 	Opts      *opts.Opts
 	Score     lnr.ScoreFn
 	SimpleSet *sset.SSet
-	State     state.State
+	state     state.State
 }
 
 //Creates a new constrained DP Simplification instance
@@ -82,6 +82,10 @@ func (self *DouglasPeucker) Simple() []int {
 
 func (self *DouglasPeucker) Id() int {
 	return self.id
+}
+
+func (self *DouglasPeucker) State() *state.State {
+	return &self.state
 }
 
 func (self *DouglasPeucker) Options() *opts.Opts {
