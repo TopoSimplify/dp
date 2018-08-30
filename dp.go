@@ -11,6 +11,7 @@ import (
 	"github.com/TopoSimplify/opts"
 	"github.com/TopoSimplify/common"
 	"github.com/TopoSimplify/decompose"
+	"github.com/TopoSimplify/state"
 )
 
 //Type DP
@@ -22,6 +23,7 @@ type DouglasPeucker struct {
 	Opts      *opts.Opts
 	Score     lnr.ScoreFn
 	SimpleSet *sset.SSet
+	State     state.State
 }
 
 //Creates a new constrained DP Simplification instance
