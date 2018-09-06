@@ -20,8 +20,9 @@ func TestDP(t *testing.T) {
 
 			var data = []geom.Point{{0.5, 1.0}, {1.0, 2.0}, {1.0, 0.4}, {2.0, 1.4}, {2.0, 0.8}, {2.5, 1.0},}
 			var options = &opts.Opts{}
-			var tree = New(id.Next(), geom.Coordinates(data), options, offset.MaxOffset)
+			var tree = New(id.Next(), geom.Coordinates(data), options, offset.MaxOffset, offset.SquareMaxOffset)
 			tree.Simplify(id)
+			g.Assert(tree.State().IsDirty()).IsTrue()
 			g.Assert(tree.Simple()).Eql([]int{0, 1, 2, 3, 4, 5})
 		})
 	})
@@ -39,7 +40,7 @@ func TestDP2(t *testing.T) {
 				{0.5, 3.0}, {1.2, 3.2}, {1.4, 2.6}, {2.0, 3.5},
 			}
 			var options = &opts.Opts{Threshold: 0}
-			var tree = New(id.Next(), geom.Coordinates(data), options, offset.MaxOffset)
+			var tree = New(id.Next(), geom.Coordinates(data), options,  offset.MaxOffset, offset.SquareMaxOffset)
 			tree.Simplify(id)
 			g.Assert(tree.Simple()).Eql([]int{0, 1, 2, 3, 4, 5, 6})
 			options.Threshold = 1

@@ -12,18 +12,20 @@ import (
 	"github.com/TopoSimplify/common"
 	"github.com/TopoSimplify/decompose"
 	"github.com/TopoSimplify/state"
+	"github.com/TopoSimplify/offset"
 )
 
 //Type DP
 type DouglasPeucker struct {
-	id        int
-	Hulls     []node.Node
-	Pln       pln.Polyline
-	Meta      map[string]interface{}
-	Opts      *opts.Opts
-	Score     lnr.ScoreFn
-	SimpleSet *sset.SSet
-	state     state.State
+	id          int
+	Hulls       []node.Node
+	Pln         pln.Polyline
+	Meta        map[string]interface{}
+	Opts        *opts.Opts
+	Score       lnr.ScoreFn
+	SquareScore lnr.ScoreFn
+	SimpleSet   *sset.SSet
+	state       state.State
 }
 
 //Creates a new constrained DP Simplification instance
@@ -32,13 +34,21 @@ func New(
 	coordinates geom.Coords,
 	options *opts.Opts,
 	offsetScore lnr.ScoreFn,
+	squareOffsetScore ...lnr.ScoreFn,
 ) *DouglasPeucker {
+
+	var sqrScore lnr.ScoreFn
+	if len(squareOffsetScore) > 0 {
+		sqrScore = squareOffsetScore[0]
+	}
+
 	var instance = DouglasPeucker{
-		id:        id,
-		Opts:      options,
-		Meta:      make(map[string]interface{}, 0),
-		SimpleSet: sset.NewSSet(cmp.Int),
-		Score:     offsetScore,
+		id:          id,
+		Opts:        options,
+		Meta:        make(map[string]interface{}, 0),
+		SimpleSet:   sset.NewSSet(cmp.Int),
+		Score:       offsetScore,
+		SquareScore: sqrScore,
 	}
 
 	if coordinates.Len() > 1 {
@@ -51,28 +61,35 @@ func (self *DouglasPeucker) ScoreRelation(val float64) bool {
 	return val <= self.Opts.Threshold
 }
 
+func (self *DouglasPeucker) SquareScoreRelation(val float64) bool {
+	return val <= (self.Opts.Threshold*self.Opts.Threshold)
+}
+
 func (self *DouglasPeucker) Decompose(id *iter.Igen) []node.Node {
+	var score = self.Score
+	var relation = self.ScoreRelation
+	if self.SquareScore != nil {
+		score = self.SquareScore
+		relation = self.SquareScoreRelation
+	}
+	var decomp = offset.EpsilonDecomposition{ScoreFn: score, Relation: relation}
 	return decompose.DouglasPeucker(
-		id,
-		self.Polyline(),
-		self.Score,
-		self.ScoreRelation,
-		common.Geometry,
-		self,
+		id, self.Polyline(), decomp, common.Geometry, self,
 	)
 }
 
 func (self *DouglasPeucker) Simplify(id *iter.Igen) *DouglasPeucker {
-	self.SimpleSet.Empty()
 	self.Hulls = self.Decompose(id)
-	for i := range self.Hulls {
-		self.SimpleSet.Extend(self.Hulls[i].Range.I, self.Hulls[i].Range.J)
-	}
 	return self
 }
 
 func (self *DouglasPeucker) Simple() []int {
+	self.SimpleSet.Empty()
+	for i := range self.Hulls {
+		self.SimpleSet.Extend(self.Hulls[i].Range.I, self.Hulls[i].Range.J)
+	}
 	var indices = make([]int, self.SimpleSet.Size())
+
 	self.SimpleSet.ForEach(func(v interface{}, i int) bool {
 		indices[i] = v.(int)
 		return true
