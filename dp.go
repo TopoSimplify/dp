@@ -1,18 +1,18 @@
 package dp
 
 import (
-	"github.com/intdxdt/cmp"
-	"github.com/intdxdt/iter"
-	"github.com/intdxdt/geom"
-	"github.com/intdxdt/sset"
-	"github.com/TopoSimplify/pln"
-	"github.com/TopoSimplify/lnr"
-	"github.com/TopoSimplify/node"
-	"github.com/TopoSimplify/opts"
 	"github.com/TopoSimplify/common"
 	"github.com/TopoSimplify/decompose"
-	"github.com/TopoSimplify/state"
+	"github.com/TopoSimplify/lnr"
+	"github.com/TopoSimplify/node"
 	"github.com/TopoSimplify/offset"
+	"github.com/TopoSimplify/opts"
+	"github.com/TopoSimplify/pln"
+	"github.com/TopoSimplify/state"
+	"github.com/intdxdt/cmp"
+	"github.com/intdxdt/geom"
+	"github.com/intdxdt/iter"
+	"github.com/intdxdt/sset"
 )
 
 //Type DP
@@ -62,7 +62,7 @@ func (self *DouglasPeucker) ScoreRelation(val float64) bool {
 }
 
 func (self *DouglasPeucker) SquareScoreRelation(val float64) bool {
-	return val <= (self.Opts.Threshold*self.Opts.Threshold)
+	return val <= (self.Opts.Threshold * self.Opts.Threshold)
 }
 
 func (self *DouglasPeucker) Decompose(id *iter.Igen) []node.Node {

@@ -3,8 +3,8 @@ package main
 import (
 	"fmt"
 	"github.com/TopoSimplify/dp"
-	"github.com/TopoSimplify/opts"
 	"github.com/TopoSimplify/offset"
+	"github.com/TopoSimplify/opts"
 	"github.com/intdxdt/geom"
 )
 

@@ -1,13 +1,13 @@
 package dp
 
 import (
-	"time"
-	"testing"
-	"github.com/intdxdt/geom"
-	"github.com/franela/goblin"
-	"github.com/TopoSimplify/opts"
 	"github.com/TopoSimplify/offset"
+	"github.com/TopoSimplify/opts"
+	"github.com/franela/goblin"
+	"github.com/intdxdt/geom"
 	"github.com/intdxdt/iter"
+	"testing"
+	"time"
 )
 
 func TestDP(t *testing.T) {
@@ -40,7 +40,8 @@ func TestDP2(t *testing.T) {
 				{0.5, 3.0}, {1.2, 3.2}, {1.4, 2.6}, {2.0, 3.5},
 			}
 			var options = &opts.Opts{Threshold: 0}
-			var tree = New(id.Next(), geom.Coordinates(data), options,  offset.MaxOffset, offset.SquareMaxOffset)
+			//var tree = New(id.Next(), geom.Coordinates(data), options,  offset.MaxOffset, offset.SquareMaxOffset)
+			var tree = New(id.Next(), geom.Coordinates(data), options, offset.MaxOffset)
 			tree.Simplify(id)
 			g.Assert(tree.Simple()).Eql([]int{0, 1, 2, 3, 4, 5, 6})
 			options.Threshold = 1
@@ -58,12 +59,12 @@ func TestDP2(t *testing.T) {
 		g.Describe("Horizontal-vertical", func() {
 			g.It("horz-vert", func() {
 				/*
-						  (3).....(4)....(5)....(6)
-						   |                     |
-						  (2)                   (7)
-						   |                     |
-				   (0)....(1)                   (8)....(9)...(10)
-				 */
+							  (3).....(4)....(5)....(6)
+							   |                     |
+							  (2)                   (7)
+							   |                     |
+					   (0)....(1)                   (8)....(9)...(10)
+				*/
 				var data = []geom.Point{
 					{2, 0}, {4, 0}, {4, 1}, {4, 2}, {6, 2}, {8, 2}, {10, 2},
 					{10, 1}, {10, 0}, {11, 0}, {12, 0}}
