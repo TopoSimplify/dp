@@ -18,7 +18,7 @@ func TestDP(t *testing.T) {
 		g.It("douglas peucker algorithm", func() {
 			g.Timeout(1 * time.Hour)
 
-			var data = []geom.Point{{0.5, 1.0}, {1.0, 2.0}, {1.0, 0.4}, {2.0, 1.4}, {2.0, 0.8}, {2.5, 1.0},}
+			var data = []geom.Point{{0.5, 1.0}, {1.0, 2.0}, {1.0, 0.4}, {2.0, 1.4}, {2.0, 0.8}, {2.5, 1.0}}
 			var options = &opts.Opts{}
 			var tree = New(id.Next(), geom.Coordinates(data), options, offset.MaxOffset, offset.SquareMaxOffset)
 			tree.Simplify(id)
@@ -36,8 +36,7 @@ func TestDP2(t *testing.T) {
 			g.Timeout(1 * time.Hour)
 
 			var data = []geom.Point{
-				{3.0, 1.6}, {3.0, 2.0}, {2.4, 2.8},
-				{0.5, 3.0}, {1.2, 3.2}, {1.4, 2.6}, {2.0, 3.5},
+				{3.0, 1.6}, {3.0, 2.0}, {2.4, 2.8}, {0.5, 3.0}, {1.2, 3.2}, {1.4, 2.6}, {2.0, 3.5},
 			}
 			var options = &opts.Opts{Threshold: 0}
 			//var tree = New(id.Next(), geom.Coordinates(data), options,  offset.MaxOffset, offset.SquareMaxOffset)
