@@ -21,6 +21,7 @@ github.com/TopoSimplify/state v0.0.0-20191217030640-e06ef7ee1bbf h1:J8bGwcWr1eJ5
 github.com/TopoSimplify/state v0.0.0-20191217030640-e06ef7ee1bbf/go.mod h1:Ypy+bICuC3E2H64hKCVTppRhlfQTHsyC4Q2sl6iEjrM=
 github.com/franela/goblin v0.0.0-20200404164657-567a4070c437/go.mod h1:VzmDKDJVZI3aJmnRI9VjAn9nJ8qPPsN1fqzr9dqInIo=
 github.com/franela/goblin v0.0.0-20200409142057-1def193310bb/go.mod h1:VzmDKDJVZI3aJmnRI9VjAn9nJ8qPPsN1fqzr9dqInIo=
+github.com/franela/goblin v0.0.0-20210113153425-413781f5e6c8 h1:QVPknD9yAYAmmmERIxdPFY6yf8d7xqoieNs/1C9ieCk=
 github.com/franela/goblin v0.0.0-20210113153425-413781f5e6c8/go.mod h1:VzmDKDJVZI3aJmnRI9VjAn9nJ8qPPsN1fqzr9dqInIo=
 github.com/intdxdt/algor v0.0.0-20171018025553-b04f84e486fd h1:9rgSasT7VYtzw93yu6gGbTW+JBiWJcoaCiZ1Y+wWQC8=
 github.com/intdxdt/algor v0.0.0-20171018025553-b04f84e486fd/go.mod h1:/39eqNevzE7YbmgY5FZTOcaBcGkM63zGC6QBX8Fq9uQ=
