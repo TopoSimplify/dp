@@ -9,7 +9,7 @@ require (
 	github.com/TopoSimplify/node v1.0.0
 	github.com/TopoSimplify/offset v0.0.0-20191215171217-3e0ac486281e
 	github.com/TopoSimplify/opts v1.0.0
-	github.com/TopoSimplify/pln v1.0.0
+	github.com/TopoSimplify/pln v1.0.1
 	github.com/TopoSimplify/state v0.0.0-20191217030640-e06ef7ee1bbf
 	github.com/franela/goblin v0.0.0-20210113153425-413781f5e6c8 // indirect
 	github.com/intdxdt/cmp v0.0.0-20171102110413-58dfeb370ea5
